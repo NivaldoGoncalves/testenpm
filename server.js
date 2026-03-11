@@ -32,9 +32,7 @@ const pool = new Pool({
 });
 
 // Rota de teste para ver se o servidor tá vivo
-app.get("/", (req, res) => {
-  res.send("Servidor do PI rodando! 🚀");
-});
+app.get("/");
 
 // ==========================================
 // ROTA DE CADASTRO DE USUÁRIOS
