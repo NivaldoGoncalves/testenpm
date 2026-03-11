@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ServiçosJá - Nova Senha</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="auth-container">
+      <header class="header-laranja">
+        <div class="logo-wrapper">
+          <a href="telaLogin.html">
+            <img src="./fotos/logo_servico.png" alt="S" />
+          </a>
+        </div>
+      </header>
+
+      <main class="content-wrapper">
+        <p class="instrucao-texto">Crie uma nova senha</p>
+
+        <form class="auth-form" id="formNovaSenha">
+          <div class="input-box">
+            <input
+              type="password"
+              id="senha"
+              placeholder="Nova senha:"
+              required
+            />
+          </div>
+          <div class="input-box">
+            <input
+              type="password"
+              id="confirmarSenha"
+              placeholder="Confirmar nova senha:"
+              required
+            />
+          </div>
+
+          <p id="erroSenha" class="erro-texto">As senhas não coincidem!</p>
+
+          <button type="submit" class="btn-confirmar">Confirmar</button>
+        </form>
+      </main>
+    </div>
+
+    <style>
+      /* Reutilizando a base visual das telas anteriores */
+      * /* Estilização de todos os documentos HTML */ {
+        margin: 0px; /* Define a margem externa de todos os elementos*/
+        padding: 0px; /* Define a margem interna de todos os elementos*/
+        box-sizing: border-box; /*Define o modelo de caixa para todos os elementos*/
+        font-family: "Montserrat", sans-serif; /*Define a fonte do texto*/
+      }
+
+      body {
+        background: linear-gradient(
+          180deg,
+          #ff8a00 0%,
+          #ffffff 50%,
+          #ff8a00 100%
+        );
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+      }
+
+      .auth-container {
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .header-laranja {
+        background-color: #ff8a00;
+        height: 110px;
+        display: flex;
+        align-items: center;
+        padding-left: 25px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .logo-wrapper {
+        background: white;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #000;
+      }
+
+      .content-wrapper {
+        padding: 60px 25px;
+        text-align: center;
+      }
+
+      .instrucao-texto {
+        font-size: 1.4rem;
+        color: #333;
+        margin-bottom: 40px;
+      }
+
+      /* Inputs com texto sempre preto */
+      .input-box {
+        margin-bottom: 20px;
+      }
+
+      .input-box input {
+        width: 100%;
+        padding: 15px 20px;
+        border-radius: 20px;
+        border: 1.5px solid #ff5c00;
+        background-color: rgba(255, 255, 255, 0.9);
+        color: #000000;
+        font-size: 1rem;
+        outline: none;
+      }
+
+      /* Estilo do botão Confirmar */
+      .btn-confirmar {
+        margin-top: 80px;
+        background-color: #ffffff;
+        color: #000;
+        border: 1.5px solid #ff5c00;
+        padding: 12px 60px;
+        border-radius: 15px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .erro-texto {
+        color: #d00;
+        font-size: 0.85rem;
+        font-weight: bold;
+        display: none;
+        margin-bottom: 15px;
+      }
+    </style>
+
+    <script>
+      // 1. Verifica se o e-mail existe na memória (para evitar acesso direto a essa tela)
+      const emailSalvo = localStorage.getItem("emailRecuperacao");
+
+      if (!emailSalvo) {
+        alert(
+          "Sessão expirada. Por favor, reinicie o processo de recuperação.",
+        );
+        window.location.href = "telaRecuperacaoSenha1.html";
+      }
+
+      // 2. Lógica de envio da nova senha
+      document
+        .getElementById("formNovaSenha")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const senha = document.getElementById("senha").value;
+          const confirmar = document.getElementById("confirmarSenha").value;
+          const erro = document.getElementById("erroSenha");
+
+          // Verifica se as senhas coincidem
+          if (senha !== confirmar) {
+            erro.style.display = "block";
+            document.getElementById("confirmarSenha").style.borderColor = "red";
+            return; // Para a execução aqui
+          }
+
+          erro.style.display = "none";
+
+          try {
+            // Envia a nova senha e o e-mail para o servidor
+            const resposta = await fetch(
+              "https://testenpm.vercel.app/redefinir-senha",
+              {
+                method: "PUT", // Usamos PUT porque estamos atualizando um dado existente
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: emailSalvo, novaSenha: senha }),
+              },
+            );
+
+            const resultado = await resposta.json();
+
+            if (resposta.ok) {
+              // Limpa o e-mail da memória por segurança
+              localStorage.removeItem("emailRecuperacao");
+
+              alert(
+                "Senha redefinida com sucesso! Você será redirecionado para o login.",
+              );
+              window.location.href = "telaLogin.html";
+            } else {
+              alert("Erro ao redefinir a senha: " + resultado.erro);
+            }
+          } catch (erro) {
+            console.error("Erro na requisição:", erro);
+            alert("Erro ao conectar com o servidor.");
+          }
+        });
+
+      // Remove o aviso de erro enquanto o usuário digita
+      document
+        .getElementById("confirmarSenha")
+        .addEventListener("input", function () {
+          this.style.borderColor = "#FF5C00";
+          document.getElementById("erroSenha").style.display = "none";
+        });
+    </script>
+  </body>
+</html>

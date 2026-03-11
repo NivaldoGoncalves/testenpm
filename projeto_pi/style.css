@@ -1,0 +1,949 @@
+* /* Estilização de todos os documentos HTML */ {
+  margin: 0px; /* Define a margem externa de todos os elementos*/
+  padding: 0px; /* Define a margem interna de todos os elementos*/
+  box-sizing: border-box; /*Define o modelo de caixa para todos os elementos*/
+  font-family: "Montserrat", sans-serif; /*Define a fonte do texto*/
+}
+
+option /*Estilizações de todos os option dos documentos html*/ {
+  text-align: center;
+}
+
+/* ================================================================================================================================= */
+/*                                                     CSS da Tela de Solicitação                                                    */
+/* ================================================================================================================================= */
+
+/* =============== */
+/*    Variáveis    */
+/* =============== */
+
+:root /*Definição de variáveis CSS para todo o documento*/ {
+  --img-perfil: black url("fotos/foto_perfil.png") no-repeat center/cover; /*Define uma variável para a imagem de perfil*/
+}
+
+/* =============== */
+/*    Variáveis    */
+/* =============== */
+
+/* =============== */
+/*      Header     */
+/* =============== */
+
+.cabeçalho_telaSolicitacao /*Estilização de toda class cabeçalho_telaSolicitacao*/ {
+  background: linear-gradient(
+    #fe7c00,
+    #ffff
+  ); /* Define um gradiente de cor para o plano de fundo do cabeçalho_telaSolicitacao*/
+
+  width: auto; /* Define a largura do cabeçalho_telaSolicitacao*/
+  min-width: 350px; /* Define a largura mínima do cabeçalho_telaSolicitacao*/
+  max-width: 1920px; /* Define a largura máxima do cabeçalho_telaSolicitacao*/
+  height: auto; /* Define a altura do cabeçalho_telaSolicitacao*/
+
+  overflow: hidden; /*Esconde qualquer conteúdp que ultrapasse os limites do cabeçalho_telaSolicitacao*/
+}
+
+.cabeçalho_telaSolicitacao img /*Estilização de todas as imagens dentro do cabeçalho_telaSolicitacao*/ {
+  width: 33px; /* Define a largura da imagem*/
+  height: auto; /* Define a altura da imagem*/
+
+  margin: 10px 0 0 10px; /* Define a margem externa da imagem*/
+}
+
+.cabeçalho_telaSolicitacao h1 /*Estilização de todos os elementos h1 dentro do cabeçalho_telaSolicitacao*/ {
+  text-align: center; /*Define o alinhamento do texto*/
+
+  font-family: "Montserrat", sans-serif; /*Define a fonte do texto*/
+  font-weight: bold; /*Define a espessura da fonte como negrito*/
+  font-size: 100%; /*Define o tamanho da fonte*/
+
+  padding: 0 0 5%; /*Define o preenchimento interno do elemento*/
+}
+
+/* ==================== */
+/*      Fim Header      */
+/* ==================== */
+
+/* ================================= */
+/*       Divisão do solicitante      */
+/* ================================= */
+
+.div_solicitante /*Estilização de toda divisão do solicitante*/ {
+  width: auto; /* Define a largura da divisão solicitante*/
+  min-width: 344px; /* Define a largura mínima da divisão solicitante*/
+  max-width: 1920px; /* Define a largura máxima da divisão solicitante*/
+  height: auto; /* Define a altura da divisão solicitante*/
+
+  margin: 3% 0 0 0; /* Define a margem externa da divisão solicitante*/
+
+  display: flex; /* Define o layout flexível para a divisão solicitante*/
+  gap: 90px; /*Define o espaço entre os elementos dentro da divisão solicitante*/
+  justify-content: center; /*Define os itens no centro*/
+
+  overflow: hidden; /*Esconde qualquer conteúdo que ultrapasse os limites da divisão solicitante*/
+}
+
+.div_solicitante p /*Estilização de todos os elementos p dentro da divisão solicitante*/ {
+  font-family: "Montserrat", sans-serif; /*Define a fonte do texto*/
+  font-size: 100%; /*Define o tamanho da fonte*/
+  font-weight: bold; /*Define a espessura da fonte como negrito*/
+}
+
+#img_solicitante /*Estilização do elemento do span img_solicitante*/ {
+  width: 80px; /* Define a largura da imagem do solicitante*/
+  height: 80px; /* Define a altura da imagem do solicitante*/
+
+  background: var(
+    --img-perfil
+  ); /*Define o fundo do id img_solicitante com uma variável*/
+  border-radius: 50%; /* Define um raio de borda de 50% para criar uma forma circular para a imagem do solicitante*/
+}
+
+.div_solicitante p, #img_solicitante /*Estilização de todos os elementos p e do elemento do span img_solicitante dentro da divisão solicitante*/ {
+  display: flex; /*Define o layout como flexível*/
+  align-items: center; /*Alinha os itens dentro do elemento ao centro*/
+}
+
+#urgencia_naoUrgencia /*Estilização do elemento do span urgencia_naoUrgencia*/ {
+  display: flex; /*Define o layout como flexível*/
+  flex-direction: column; /*Define a direção dos itens dentro do elemento como coluna*/
+  align-items: center; /*Alinha os itens dentro do elemento ao centro*/
+}
+
+#urgencia_naoUrgencia img /*Estilização apenas da imagem dentro do span urgencia_naoUrgencia*/ {
+  width: 40px; /* Define a largura da imagem de urgência ou não urgência do serviço*/
+  max-width: 80px; /* Define a largura máxima da imagem de urgência ou não urgência do serviço*/
+  height: auto; /* Define a altura da imagem de urgência ou não urgência do serviço*/
+  max-height: 80px; /* Define a altura máxima da imagem de urgência ou não urgência do serviço*/
+
+  margin: 25% 0 0 0; /* Define a margem externa da imagem de urgência ou não urgência do serviço*/
+
+  cursor: pointer; /*Define o cursor como pointer para indicar que a imagem é clicável*/
+}
+
+#urgencia_naoUrgencia p /*Estilização apenas do elemento p dentro do span urgencia_naoUrgencia*/ {
+  font-family: "Montserrat", sans-serif; /*Define a fonte do texto*/
+  font-size: 100%; /*Define o tamanho da fonte*/
+  font-weight: bold; /*Define a espessura da fonte como negrito*/
+
+  padding: 10px 4px 0 0; /*Define o espaçamento interno do elemento*/
+}
+
+/* ================================= */
+/*   Fim da Divisão do solicitante   */
+/* ================================= */
+
+/* =============================== */
+/*       Divisão Data e servico      */
+/* =============================== */
+
+.div_dataServico /*Estilização de toda Divisão Data servico*/ {
+  margin: 12px auto; /*Define o espaçamento externo da caixa Divisão Data servico*/
+}
+
+.div_dataServico h1 /*Estilização de todos h1 da divisão Data e servico*/ {
+  text-align: center; /*Define o alinhamento do texto*/
+}
+
+/* =============================== */
+/*     Formulário Data e servico   */
+/* =============================== */
+
+.data_servico /*Estilização de todos os formulários de Data e Serviço*/ {
+  display: flex; /*Define o display dos formulários como flexível*/
+  gap: 20px;
+  justify-content: center; /*Define os itens no centro*/
+  flex-shrink: 0; /*Define que nenhum container pode atrapalhar o outro*/
+
+  margin: 15px 0 0 0; /*Define o espaçamento externo da formulário Data e Serviço*/
+}
+
+.data_servico label /*Estilização de todos os label dos formulários de Data e servico*/ {
+  display: none; /*Define os label como invisível*/
+}
+
+#formularioData /*Estilização do Formulário de Data*/ {
+  padding: auto 10px auto 10px; /*Define o espaçamento interno do formulário data*/
+  margin: 0 0 0 12px;
+
+  border: 1px solid #f42006; /*Define uma borda no formulário data*/
+  border-radius: 15px; /*Define o raio de canto do formulário data*/
+
+  background: rgba(
+    254,
+    124,
+    0,
+    0.31
+  ); /*Define a cor do fundo do formulário com rgba*/
+
+  font-size: 16px; /*Define o tamanho da fonte*/
+  font-weight: bold; /*Define o texto como negrito*/
+
+  cursor: pointer; /*Define o cursor como pointer para indicar que a imagem é clicável*/
+}
+
+#formularioServico /*Estilização do Formulário de servico*/ {
+  padding: auto 2px auto 2px; /*Define o espaçamento interno do formulário servico*/
+
+  border: 1px solid #f42006; /*Define uma borda no formulário servico*/
+  border-radius: 15px; /*Define o raio de canto do formulário servico*/
+
+  background: rgba(
+    254,
+    124,
+    0,
+    0.31
+  ); /*Define a cor do fundo do formulário com rgba*/
+
+  font-size: 16px; /*Define o tamanho da fonte*/
+  font-weight: bold; /*Define o texto como negrito*/
+
+  cursor: pointer; /*Define o cursor como pointer para indicar que a imagem é clicável*/
+}
+
+/* ================================= */
+/*    Fim Formulário Data e servico  */
+/* ================================= */
+
+/* ================================= */
+/*      Fim Divisão Data e servico   */
+/* ================================= */
+
+/* ========================================== */
+/*    Funcionalidade de pegar Geolocalização  */
+/* ========================================== */
+
+.funGeolocalizacao /*Estilização de funcionalidade pegar Geolocalização*/ {
+  text-align: center; /*Define a posição da divisão*/
+}
+
+#btnLocalizacao /*Estilização do botão buscar localização*/ {
+  padding: 0 20px 0 40px; /*Define o espaçamento interno no botão*/
+  margin: 8px 0 0 0; /*Define o espaçamento externo no botão*/
+
+  border: 1px solid #f42006; /*Define uma borda no botão*/
+  border-radius: 15px; /*Define o raio de canto do botão*/
+
+  background: #fe7c00; /*Define a cor do fundo do botão*/
+
+  font-size: 16px; /*Define o tamanho da fonte*/
+  font-weight: lighter; /*Define o texto como negrito*/
+  color: #ffff; /*Define a cor do texto*/
+
+  cursor: pointer; /*Define o cursor como pointer para indicar que a imagem é clicável*/
+}
+
+#btnLocalizacao img {
+  width: 16px; /*Define a largura da imagem*/
+  height: auto; /*Define a altura da imagem*/
+
+  transform: translateX(-20px); /*Move o objeto em relação ao eixo X*/
+}
+
+/* ========================================== */
+/*    Funcionalidade de pegar Geolocalização  */
+/* ========================================== */
+
+/* =========================================== */
+/*        Formulário Endereço & Descrição      */
+/* ============================================*/
+
+.localizacaoText /*Estilização de toda a Seção formulário endereço e descrição*/ {
+  text-align: center;
+}
+
+.localizacaoText h3 /*Estilização de todos os h3 da Localização por Texto*/ {
+  margin: 10px; /*Define o espaçamento externo do Formulário*/
+
+  text-align: center; /*Define o alinhamento do texto*/
+}
+
+#formularioEndereco /*Estilização do formulário de Endereço de Texto*/ {
+  margin: 10px; /*Define o espaçamento externo do formulário texto*/
+
+  width: 400px; /*Define a largura do formulário*/
+  height: 70px; /*Define a altura do formulário*/
+  max-height: 70px; /*Define a altura máxima do formulário*/
+  line-height: 35px; /* Alinha verticalmente (mesmo valor da altura) */
+
+  border: 1px solid #f42006; /*Define uma borda no formulário texto*/
+  border-radius: 15px; /*Define o raio de canto do formulário texto*/
+
+  background: rgba(
+    254,
+    124,
+    0,
+    0.31
+  ); /*Define a cor do fundo do formulário com rgba*/
+
+  font-size: 16px; /*Define o tamanho da fonte*/
+  font-weight: lighter; /*Define o texto como negrito*/
+
+  cursor: pointer; /*Define o cursor como pointer para indicar que a imagem é clicável*/
+
+  resize: none; /* impede redimensionamento manual */
+
+  overflow-wrap: break-word; /* quebra palavras longas */
+  overflow: hidden; /*Esconde qualquer conteúdp que ultrapasse os limites do formulário*/
+}
+
+#formularioDescricao /*Estilização do formulário de Descrição de Serviço*/ {
+  margin: 10px; /*Define o espaçamento externo do formulário texto*/
+
+  width: 400px; /*Define a largura do formulário*/
+  height: 120px; /*Define a altura do formulário*/
+  max-height: 120px; /*Define a altura máxima do formulário*/
+  line-height: 30px; /* Alinha verticalmente (mesmo valor da altura) */
+
+  border: 1px solid #f42006; /*Define uma borda no formulário texto*/
+  border-radius: 15px; /*Define o raio de canto do formulário texto*/
+
+  background: rgba(
+    254,
+    124,
+    0,
+    0.31
+  ); /*Define a cor do fundo do formulário com rgba*/
+
+  font-size: 16px; /*Define o tamanho da fonte*/
+  font-weight: lighter; /*Define o texto como negrito*/
+
+  cursor: pointer; /*Define o cursor como pointer para indicar que a imagem é clicável*/
+
+  resize: none; /* impede redimensionamento manual */
+
+  overflow-wrap: break-word; /* quebra palavras longas */
+  overflow: hidden; /*Esconde qualquer conteúdp que ultrapasse os limites do formulário*/
+}
+
+/* ============================================= */
+/*       Fim Formulário Endereço & Descrição     */
+/* ============================================= */
+
+/* ========================= */
+/*     Imagem do Problema    */
+/* ========================= */
+
+#titulo_imgProblema /*Estilização de todo o Label da Imagem Problema*/ {
+  width: auto; /*Define a largura do formulário*/
+  height: auto; /*Define a altura do formulário*/
+  max-height: 120px; /*Define a altura máxima do formulário*/
+
+  display: flex; /*Define o layout como flexível*/
+  flex-direction: column; /*Define a direção dos itens dentro do elemento como coluna*/
+  align-items: center; /*Alinha os itens dentro do elemento ao centro*/
+
+  overflow: hidden; /*Esconde qualquer conteúdp que ultrapasse os limites do formulário*/
+
+  cursor: pointer; /*Define o cursor como pointer para indicar que a imagem é clicável*/
+}
+
+#titulo_imgProblema h2 /*Estilização do H2 do Label da Imagem do Problema*/ {
+  font-family: "Montserrat", sans-serif; /*Define a fonte do texto*/
+  font-size: 15px; /*Define o tamanho da fonte*/
+  font-weight: bold; /*Define o texto como negrito*/
+}
+
+#imagemProblema /*Estilização da imagem do problema*/ {
+  width: auto; /*Define a largura da Imagem*/
+  height: 100px; /*Define a altura da Imagem*/
+
+  background: no-repeat cover; /*Define propriedades de fundo da imagem*/
+}
+
+#selecionar_foto /*Estilização de todo o Input de Imagem do Problema*/ {
+  display: none; /*Define o display como nenhum do Input*/
+}
+
+/* ============================  */
+/*     Fim Imagem do Problema    */
+/* ============================  */
+
+/* ========================= */
+/*           Rodapé          */
+/*      Butão Solicitar      */
+/* ========================= */
+
+.rodape_solicitacao /*Estilização de todo Rodapé*/ {
+  background: linear-gradient(
+    to top,
+    #fe7c00,
+    #ffff
+  ); /* Define um gradiente de cor para o plano de fundo do Radapé*/
+
+  width: auto; /* Define a largura do Radapé*/
+  min-width: 350px; /* Define a largura mínima do Radapé*/
+  max-width: 1920px; /* Define a largura máxima do Radapé*/
+  height: 175px; /* Define a altura do Radapé*/
+
+  text-align: center; /*Define todos os itens do Rodapé no centro*/
+
+  overflow: hidden; /*Esconde qualquer conteúdp que ultrapasse os limites ddo Radapé*/
+}
+
+#solicitarServico /*Estilização do Butão de Solicitar Serviço*/ {
+  margin: 20px 0 0 0; /*Define o espaçamento externo*/
+
+  width: 181px; /*Define a largura do Botão*/
+  height: 57px; /*Define a altura do Botão*/
+
+  background: #ffffff;
+
+  border: 1px solid #f42006; /*Define a borda*/
+  border-radius: 20px; /*Define a volta da borda*/
+
+  color: #fe7c00; /*Define a cor do Texto*/
+
+  font-family: "Montserrat", sans-serif; /*Define a fonte do texto*/
+  font-size: 24px; /*Define o tamanho da fonte*/
+  font-weight: bolder; /*Define a altura da fonte*/
+}
+
+/* ============================  */
+/*           Rodapé              */
+/*      Fim Butão Solicitar      */
+/* ============================  */
+
+@media screen and (width: 390px) and (height: 844px) /*Responsividade do Iphone 12 pro*/ {
+  .div_solicitante /*Estilização de toda divisão do solicitante*/ {
+    width: auto; /* Define a largura da divisão solicitante*/
+    height: auto; /* Define a altura da divisão solicitante*/
+    display: flex; /* Define o layout flexível para a divisão solicitante*/
+    gap: 70px; /*Define o espaço entre os elementos dentro da divisão solicitante*/
+
+    overflow: hidden; /*Esconde qualquer conteúdo que ultrapasse os limites da divisão solicitante*/
+  }
+
+  #formularioEndereco /*Estilização do formulário de Endereço de Texto*/ {
+    margin: 10px; /*Define o espaçamento externo do formulário texto*/
+
+    width: 350px; /*Define a largura do formulário*/
+    height: 70px; /*Define a altura do formulário*/
+    max-height: 70px; /*Define a altura máxima do formulário*/
+    line-height: 35px; /* Alinha verticalmente (mesmo valor da altura) */
+
+    border: 1px solid #f42006; /*Define uma borda no formulário texto*/
+    border-radius: 15px; /*Define o raio de canto do formulário texto*/
+
+    background: rgba(
+      254,
+      124,
+      0,
+      0.31
+    ); /*Define a cor do fundo do formulário com rgba*/
+
+    font-size: 16px; /*Define o tamanho da fonte*/
+    font-weight: lighter; /*Define o texto como negrito*/
+
+    cursor: pointer; /*Define o cursor como pointer para indicar que a imagem é clicável*/
+
+    resize: none; /* impede redimensionamento manual */
+
+    overflow-wrap: break-word; /* quebra palavras longas */
+    overflow: hidden; /*Esconde qualquer conteúdp que ultrapasse os limites do formulário*/
+  }
+
+  #formularioDescricao /*Estilização do formulário de Descrição de Serviço*/ {
+    margin: 10px; /*Define o espaçamento externo do formulário texto*/
+
+    width: 360px; /*Define a largura do formulário*/
+    height: 100px; /*Define a altura do formulário*/
+    max-height: 120px; /*Define a altura máxima do formulário*/
+    line-height: 20px; /* Alinha verticalmente (mesmo valor da altura) */
+
+    border: 1px solid #f42006; /*Define uma borda no formulário texto*/
+    border-radius: 15px; /*Define o raio de canto do formulário texto*/
+
+    background: rgba(
+      254,
+      124,
+      0,
+      0.31
+    ); /*Define a cor do fundo do formulário com rgba*/
+
+    font-size: 16px; /*Define o tamanho da fonte*/
+    font-weight: lighter; /*Define o texto como negrito*/
+
+    cursor: pointer; /*Define o cursor como pointer para indicar que a imagem é clicável*/
+
+    resize: none; /* impede redimensionamento manual */
+
+    overflow-wrap: break-word; /* quebra palavras longas */
+    overflow: hidden; /*Esconde qualquer conteúdp que ultrapasse os limites do formulário*/
+  }
+  .rodape_solicitacao /*Estilização de todo Rodapé*/ {
+    background: linear-gradient(
+      to top,
+      #fe7c00,
+      #ffff
+    ); /* Define um gradiente de cor para o plano de fundo do Radapé*/
+
+    width: auto; /* Define a largura do Radapé*/
+    min-width: 350px; /* Define a largura mínima do Radapé*/
+    max-width: 1920px; /* Define a largura máxima do Radapé*/
+    height: 110px; /* Define a altura do Radapé*/
+
+    text-align: center; /*Define todos os itens do Rodapé no centro*/
+
+    overflow: hidden; /*Esconde qualquer conteúdp que ultrapasse os limites ddo Radapé*/
+  }
+}
+
+@media screen and (width: 360px) and (height: 740px) /*Responsividade Samsung S8*/ {
+  .div_solicitante p /*Estilização de todos os elementos p dentro da divisão solicitante*/ {
+    font-family: "Montserrat", sans-serif; /*Define a fonte do texto*/
+    font-size: 13px; /*Define o tamanho da fonte*/
+    font-weight: bold; /*Define a espessura da fonte como negrito*/
+  }
+
+  #img_solicitante /*Estilização do elemento do span img_solicitante*/ {
+    width: 80px; /* Define a largura da imagem do solicitante*/
+    height: 50px; /* Define a altura da imagem do solicitante*/
+
+    background: var(
+      --img-perfil
+    ); /*Define o fundo do id img_solicitante com uma variável*/
+    border-radius: 50%; /* Define um raio de borda de 50% para criar uma forma circular para a imagem do solicitante*/
+  }
+
+  #urgencia_naoUrgencia img /*Estilização apenas da imagem dentro do span urgencia_naoUrgencia*/ {
+    width: 30px; /* Define a largura da imagem de urgência ou não urgência do serviço*/
+    max-width: 80px; /* Define a largura máxima da imagem de urgência ou não urgência do serviço*/
+    height: auto; /* Define a altura da imagem de urgência ou não urgência do serviço*/
+    max-height: 80px; /* Define a altura máxima da imagem de urgência ou não urgência do serviço*/
+
+    margin: 25% 0 0 0; /* Define a margem externa da imagem de urgência ou não urgência do serviço*/
+
+    cursor: pointer; /*Define o cursor como pointer para indicar que a imagem é clicável*/
+  }
+
+  #urgencia_naoUrgencia p /*Estilização apenas do elemento p dentro do span urgencia_naoUrgencia*/ {
+    font-family: "Montserrat", sans-serif; /*Define a fonte do texto*/
+    font-size: 12px; /*Define o tamanho da fonte*/
+    font-weight: bold; /*Define a espessura da fonte como negrito*/
+
+    padding: 10px 4px 0 0; /*Define o espaçamento interno do elemento*/
+  }
+  #formularioData /*Estilização do Formulário de Data*/ {
+    padding: auto 8px auto 8px; /*Define o espaçamento interno do formulário data*/
+    margin: 0 0 0 12px;
+
+    border: 1px solid #f42006; /*Define uma borda no formulário data*/
+    border-radius: 15px; /*Define o raio de canto do formulário data*/
+
+    background: rgba(
+      254,
+      124,
+      0,
+      0.31
+    ); /*Define a cor do fundo do formulário com rgba*/
+
+    font-size: 14px; /*Define o tamanho da fonte*/
+    font-weight: bold; /*Define o texto como negrito*/
+
+    cursor: pointer; /*Define o cursor como pointer para indicar que a imagem é clicável*/
+  }
+
+  #formularioServico /*Estilização do Formulário de servico*/ {
+    padding: auto 2px auto 2px; /*Define o espaçamento interno do formulário servico*/
+
+    border: 1px solid #f42006; /*Define uma borda no formulário servico*/
+    border-radius: 15px; /*Define o raio de canto do formulário servico*/
+
+    background: rgba(
+      254,
+      124,
+      0,
+      0.31
+    ); /*Define a cor do fundo do formulário com rgba*/
+
+    font-size: 14px; /*Define o tamanho da fonte*/
+    font-weight: bold; /*Define o texto como negrito*/
+
+    cursor: pointer; /*Define o cursor como pointer para indicar que a imagem é clicável*/
+  }
+  #formularioEndereco /*Estilização do formulário de Endereço de Texto*/ {
+    margin: 10px; /*Define o espaçamento externo do formulário texto*/
+
+    width: 340px; /*Define a largura do formulário*/
+    height: 70px; /*Define a altura do formulário*/
+    max-height: 70px; /*Define a altura máxima do formulário*/
+    line-height: 35px; /* Alinha verticalmente (mesmo valor da altura) */
+
+    border: 1px solid #f42006; /*Define uma borda no formulário texto*/
+    border-radius: 15px; /*Define o raio de canto do formulário texto*/
+
+    background: rgba(
+      254,
+      124,
+      0,
+      0.31
+    ); /*Define a cor do fundo do formulário com rgba*/
+
+    font-size: 16px; /*Define o tamanho da fonte*/
+    font-weight: lighter; /*Define o texto como negrito*/
+
+    cursor: pointer; /*Define o cursor como pointer para indicar que a imagem é clicável*/
+
+    resize: none; /* impede redimensionamento manual */
+
+    overflow-wrap: break-word; /* quebra palavras longas */
+    overflow: hidden; /*Esconde qualquer conteúdp que ultrapasse os limites do formulário*/
+  }
+
+  #formularioDescricao /*Estilização do formulário de Descrição de Serviço*/ {
+    margin: 10px; /*Define o espaçamento externo do formulário texto*/
+
+    width: 340px; /*Define a largura do formulário*/
+    height: 100px; /*Define a altura do formulário*/
+    max-height: 120px; /*Define a altura máxima do formulário*/
+    line-height: 20px; /* Alinha verticalmente (mesmo valor da altura) */
+
+    border: 1px solid #f42006; /*Define uma borda no formulário texto*/
+    border-radius: 15px; /*Define o raio de canto do formulário texto*/
+
+    background: rgba(
+      254,
+      124,
+      0,
+      0.31
+    ); /*Define a cor do fundo do formulário com rgba*/
+
+    font-size: 16px; /*Define o tamanho da fonte*/
+    font-weight: lighter; /*Define o texto como negrito*/
+
+    cursor: pointer; /*Define o cursor como pointer para indicar que a imagem é clicável*/
+
+    resize: none; /* impede redimensionamento manual */
+
+    overflow-wrap: break-word; /* quebra palavras longas */
+    overflow: hidden; /*Esconde qualquer conteúdp que ultrapasse os limites do formulário*/
+  }
+  .rodape_solicitacao /*Estilização de todo Rodapé*/ {
+    background: linear-gradient(
+      to top,
+      #fe7c00,
+      #ffff
+    ); /* Define um gradiente de cor para o plano de fundo do Radapé*/
+
+    width: auto; /* Define a largura do Radapé*/
+    min-width: 350px; /* Define a largura mínima do Radapé*/
+    max-width: 1920px; /* Define a largura máxima do Radapé*/
+    height: 110px; /* Define a altura do Radapé*/
+
+    text-align: center; /*Define todos os itens do Rodapé no centro*/
+
+    overflow: hidden; /*Esconde qualquer conteúdp que ultrapasse os limites ddo Radapé*/
+  }
+  #imagemProblema /*Estilização da imagem do problema*/ {
+    width: auto; /*Define a largura da Imagem*/
+    height: 60px; /*Define a altura da Imagem*/
+
+    background: no-repeat cover; /*Define propriedades de fundo da imagem*/
+  }
+  #solicitarServico /*Estilização do Butão de Solicitar Serviço*/ {
+    margin: 20px 0 0 0; /*Define o espaçamento externo*/
+
+    width: 130px; /*Define a largura do Botão*/
+    height: 40px; /*Define a altura do Botão*/
+
+    background: #ffffff;
+
+    border: 1px solid #f42006; /*Define a borda*/
+    border-radius: 20px; /*Define a volta da borda*/
+
+    color: #fe7c00; /*Define a cor do Texto*/
+
+    font-family: "Montserrat", sans-serif; /*Define a fonte do texto*/
+    font-size: 15px; /*Define o tamanho da fonte*/
+    font-weight: bolder; /*Define a altura da fonte*/
+  }
+}
+
+@media screen and (width: 344px) and (height: 882px) {
+  .div_solicitante p /*Estilização de todos os elementos p dentro da divisão solicitante*/ {
+    font-family: "Montserrat", sans-serif; /*Define a fonte do texto*/
+    font-size: 10px; /*Define o tamanho da fonte*/
+    font-weight: bold; /*Define a espessura da fonte como negrito*/
+  }
+
+  #img_solicitante /*Estilização do elemento do span img_solicitante*/ {
+    width: 100px; /* Define a largura da imagem do solicitante*/
+    height: 60px; /* Define a altura da imagem do solicitante*/
+
+    background: var(
+      --img-perfil
+    ); /*Define o fundo do id img_solicitante com uma variável*/
+    border-radius: 50%; /* Define um raio de borda de 50% para criar uma forma circular para a imagem do solicitante*/
+  }
+
+  #urgencia_naoUrgencia img /*Estilização apenas da imagem dentro do span urgencia_naoUrgencia*/ {
+    width: 30px; /* Define a largura da imagem de urgência ou não urgência do serviço*/
+    max-width: 80px; /* Define a largura máxima da imagem de urgência ou não urgência do serviço*/
+    height: auto; /* Define a altura da imagem de urgência ou não urgência do serviço*/
+    max-height: 80px; /* Define a altura máxima da imagem de urgência ou não urgência do serviço*/
+
+    margin: 25% 0 0 0; /* Define a margem externa da imagem de urgência ou não urgência do serviço*/
+
+    cursor: pointer; /*Define o cursor como pointer para indicar que a imagem é clicável*/
+  }
+
+  #urgencia_naoUrgencia p /*Estilização apenas do elemento p dentro do span urgencia_naoUrgencia*/ {
+    font-family: "Montserrat", sans-serif; /*Define a fonte do texto*/
+    font-size: 12px; /*Define o tamanho da fonte*/
+    font-weight: bold; /*Define a espessura da fonte como negrito*/
+
+    padding: 10px 4px 0 0; /*Define o espaçamento interno do elemento*/
+  }
+  .div_dataServico h1 /*Estilização de todos h1 da divisão Data e servico*/ {
+    text-align: center; /*Define o alinhamento do texto*/
+    font-size: 22px;
+  }
+  #formularioData /*Estilização do Formulário de Data*/ {
+    padding: auto 8px auto 8px; /*Define o espaçamento interno do formulário data*/
+    margin: 0 0 0 12px;
+
+    border: 1px solid #f42006; /*Define uma borda no formulário data*/
+    border-radius: 15px; /*Define o raio de canto do formulário data*/
+
+    background: rgba(
+      254,
+      124,
+      0,
+      0.31
+    ); /*Define a cor do fundo do formulário com rgba*/
+
+    font-size: 14px; /*Define o tamanho da fonte*/
+    font-weight: bold; /*Define o texto como negrito*/
+
+    cursor: pointer; /*Define o cursor como pointer para indicar que a imagem é clicável*/
+  }
+
+  #formularioServico /*Estilização do Formulário de servico*/ {
+    padding: auto 2px auto 2px; /*Define o espaçamento interno do formulário servico*/
+
+    border: 1px solid #f42006; /*Define uma borda no formulário servico*/
+    border-radius: 15px; /*Define o raio de canto do formulário servico*/
+
+    background: rgba(
+      254,
+      124,
+      0,
+      0.31
+    ); /*Define a cor do fundo do formulário com rgba*/
+
+    font-size: 14px; /*Define o tamanho da fonte*/
+    font-weight: bold; /*Define o texto como negrito*/
+
+    cursor: pointer; /*Define o cursor como pointer para indicar que a imagem é clicável*/
+  }
+  #formularioEndereco /*Estilização do formulário de Endereço de Texto*/ {
+    margin: 10px; /*Define o espaçamento externo do formulário texto*/
+
+    width: 330px; /*Define a largura do formulário*/
+    height: 70px; /*Define a altura do formulário*/
+    max-height: 70px; /*Define a altura máxima do formulário*/
+    line-height: 35px; /* Alinha verticalmente (mesmo valor da altura) */
+
+    border: 1px solid #f42006; /*Define uma borda no formulário texto*/
+    border-radius: 15px; /*Define o raio de canto do formulário texto*/
+
+    background: rgba(
+      254,
+      124,
+      0,
+      0.31
+    ); /*Define a cor do fundo do formulário com rgba*/
+
+    font-size: 16px; /*Define o tamanho da fonte*/
+    font-weight: lighter; /*Define o texto como negrito*/
+
+    cursor: pointer; /*Define o cursor como pointer para indicar que a imagem é clicável*/
+
+    resize: none; /* impede redimensionamento manual */
+
+    overflow-wrap: break-word; /* quebra palavras longas */
+    overflow: hidden; /*Esconde qualquer conteúdp que ultrapasse os limites do formulário*/
+  }
+
+  #formularioDescricao /*Estilização do formulário de Descrição de Serviço*/ {
+    margin: 10px; /*Define o espaçamento externo do formulário texto*/
+
+    width: 330px; /*Define a largura do formulário*/
+    height: 100px; /*Define a altura do formulário*/
+    max-height: 120px; /*Define a altura máxima do formulário*/
+    line-height: 20px; /* Alinha verticalmente (mesmo valor da altura) */
+
+    border: 1px solid #f42006; /*Define uma borda no formulário texto*/
+    border-radius: 15px; /*Define o raio de canto do formulário texto*/
+
+    background: rgba(
+      254,
+      124,
+      0,
+      0.31
+    ); /*Define a cor do fundo do formulário com rgba*/
+
+    font-size: 16px; /*Define o tamanho da fonte*/
+    font-weight: lighter; /*Define o texto como negrito*/
+
+    cursor: pointer; /*Define o cursor como pointer para indicar que a imagem é clicável*/
+
+    resize: none; /* impede redimensionamento manual */
+
+    overflow-wrap: break-word; /* quebra palavras longas */
+    overflow: hidden; /*Esconde qualquer conteúdp que ultrapasse os limites do formulário*/
+  }
+  .rodape_solicitacao /*Estilização de todo Rodapé*/ {
+    background: linear-gradient(
+      to top,
+      #fe7c00,
+      #ffff
+    ); /* Define um gradiente de cor para o plano de fundo do Radapé*/
+
+    width: auto; /* Define a largura do Radapé*/
+    min-width: 350px; /* Define a largura mínima do Radapé*/
+    max-width: 1920px; /* Define a largura máxima do Radapé*/
+    height: 220px; /* Define a altura do Radapé*/
+
+    text-align: center; /*Define todos os itens do Rodapé no centro*/
+
+    overflow: hidden; /*Esconde qualquer conteúdp que ultrapasse os limites ddo Radapé*/
+  }
+  #imagemProblema /*Estilização da imagem do problema*/ {
+    width: auto; /*Define a largura da Imagem*/
+    height: 60px; /*Define a altura da Imagem*/
+
+    background: no-repeat cover; /*Define propriedades de fundo da imagem*/
+  }
+  #solicitarServico /*Estilização do Butão de Solicitar Serviço*/ {
+    margin: 20px 0 0 0; /*Define o espaçamento externo*/
+
+    width: 130px; /*Define a largura do Botão*/
+    height: 40px; /*Define a altura do Botão*/
+
+    background: #ffffff;
+
+    border: 1px solid #f42006; /*Define a borda*/
+    border-radius: 20px; /*Define a volta da borda*/
+
+    color: #fe7c00; /*Define a cor do Texto*/
+
+    font-family: "Montserrat", sans-serif; /*Define a fonte do texto*/
+    font-size: 15px; /*Define o tamanho da fonte*/
+    font-weight: bolder; /*Define a altura da fonte*/
+  }
+}
+
+/* ================================================================================================================================= */
+/*                                                     CSS da Tela de Solicitação                                                    */
+/* ================================================================================================================================= */
+
+/* ================================================================================================================================= */
+/*                                                     CSS da Tela de Verificação do Profissional                                    */
+/* ================================================================================================================================= */
+
+/* =============== */
+/*      Header     */
+/* =============== */
+
+.cabecalhoVerificacaoProfissional /*Estilização de todo cabeçalho da Tela de Verificação*/ {
+  display: flex; /*Define do display do cabeçalho*/
+  justify-content: space-between; /*Define a posição do cabeçalho*/
+
+  background: #fe7c00; /*Define o fundo do Cabeçalho*/
+
+  width: auto; /*Define a largura do cabeçalho*/
+  height: 13dvh; /*Define a altura do cabeçalho*/
+}
+
+#logo_link /*Estilização da imagem logo link*/ {
+  margin: 20px; /*Define o espaçamento externo da imagem*/
+}
+
+#icon_voltar /*Estilização da imagem Icon Voltar*/ {
+  margin: 30px; /*Define o espaçamento externo da imagem*/
+}
+
+/* ==================== */
+/*      Fim Header      */
+/* ==================== */
+
+/* ============================= */
+/*      Valor Imagem e média     */
+/* ============================= */
+
+.valor_foto_avaliacao /*Estilização do valor foto e avaliação*/ {
+  display: flex; /*Define o display*/
+}
+
+#valor_profissional /*Estilização do valor do profissional*/ {
+  border: 1px solid #fe7c00;
+
+  width: 99px;
+  height: 47px;
+}
+
+#media_profissonal {
+  border: 1px solid #fe7c00;
+
+  width: 99px;
+  height: 47px;
+}
+
+/* ============================= */
+/*   Fim Valor Imagem e média    */
+/* ============================= */
+
+/* Estilo para a foto de perfil gerada com a inicial do nome */
+#img_solicitante {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  background-color: #003366; /* Azul escuro combinando com a sua logo */
+  color: #ffffff; /* Letra branca */
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-radius: 50%; /* Deixa redondinho */
+  margin-left: 15px; /* Dá um espacinho da palavra "Solicitante:" */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos do Pop-up (Radar) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(3px);
+}
+.modal-content {
+  background: white;
+  width: 90%;
+  max-width: 350px;
+  border-radius: 20px;
+  padding: 30px 20px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  animation: pular 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+@keyframes pular {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

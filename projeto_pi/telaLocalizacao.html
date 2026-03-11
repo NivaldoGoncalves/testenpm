@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aguardando Confirmação</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Reutilizando seu estilo com melhorias visuais */
+      * {
+        font-family: "Montserrat", sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .fundo-aguardando {
+        background: radial-gradient(circle, #003366 0%, #001a33 100%);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: white;
+        padding: 20px;
+      }
+      .container-central {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      }
+      .radar-container {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 40px;
+      }
+      .logo-centro {
+        width: 80px;
+        z-index: 10;
+        background: white;
+        border-radius: 50%;
+        padding: 10px;
+      }
+      .circulo-pulso {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 138, 0, 0.4);
+        border-radius: 50%;
+        animation: pulsar 2s infinite ease-out;
+      }
+      .atraso-1 {
+        animation-delay: 0.6s;
+      }
+      .atraso-2 {
+        animation-delay: 1.2s;
+      }
+
+      @keyframes pulsar {
+        0% {
+          transform: scale(0.8);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(3);
+          opacity: 0;
+        }
+      }
+
+      .titulo-aguardando {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+        color: #ff8a00;
+      }
+      .texto-aguardando {
+        font-size: 1.1rem;
+        max-width: 320px;
+        line-height: 1.5;
+        color: #e0e0e0;
+        margin-bottom: 30px;
+      }
+
+      .status-badge {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 8px 15px;
+        border-radius: 30px;
+        font-size: 0.8rem;
+        margin-bottom: 40px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .btn-cancelar {
+        background: #ff4444;
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        border-radius: 30px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
+      }
+      .btn-home {
+        background: transparent;
+        color: white;
+        border: 1px solid white;
+        margin-top: 15px;
+        padding: 10px 30px;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        opacity: 0.7;
+      }
+    </style>
+  </head>
+  <body class="fundo-aguardando">
+    <div class="container-central">
+      <div class="radar-container">
+        <div class="circulo-pulso"></div>
+        <div class="circulo-pulso atraso-1"></div>
+        <div class="circulo-pulso atraso-2"></div>
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+          alt="Logo"
+          class="logo-centro"
+        />
+      </div>
+
+      <h2 class="titulo-aguardando" id="mainTitle">
+        Buscando Profissionais...
+      </h2>
+      <p class="texto-aguardando" id="mainText">
+        Enviamos seu pedido para os especialistas da área. Aguarde um instante.
+      </p>
+
+      <div class="status-badge" id="timer">Tempo de busca: 00:00</div>
+
+      <button class="btn-cancelar" onclick="cancelarPedido()">
+        Cancelar Solicitação
+      </button>
+      <button class="btn-home" onclick="window.location.href = 'home.html'">
+        Voltar para o Início
+      </button>
+    </div>
+
+    <script>
+      // Pegar o ID do pedido que foi gerado na tela anterior
+      // Você deve salvar o id_solicitacao no localStorage ao clicar em "Enviar Pedido"
+      const idPedido = localStorage.getItem("ultimoPedidoId");
+      const idUsuario = localStorage.getItem("usuarioId");
+      let segundos = 0;
+
+      // 1. Cronômetro Visual
+      setInterval(() => {
+        segundos++;
+        let min = Math.floor(segundos / 60)
+          .toString()
+          .padStart(2, "0");
+        let seg = (segundos % 60).toString().padStart(2, "0");
+        document.getElementById("timer").textContent =
+          `Tempo de busca: ${min}:${seg}`;
+
+        // Se passar de 2 minutos e ninguém aceitar, avisa o usuário
+        if (segundos === 120) {
+          document.getElementById("mainText").textContent =
+            "A busca está levando mais tempo que o esperado. Você pode voltar para a Home, avisaremos quando alguém aceitar!";
+        }
+      }, 1000);
+
+      // 2. Verificação Real no Banco de Dados
+      async function verificarStatus() {
+        if (!idPedido) return;
+
+        try {
+          // Rota que criamos no server.js para buscar pedidos do cliente
+          const resposta = await fetch(
+            `https://testenpm.vercel.app/pedidos-cliente/${idUsuario}`,
+          );
+          const pedidos = await resposta.json();
+
+          // Encontra o pedido atual na lista
+          const pedidoAtual = pedidos.find((p) => p.id_solicitacao == idPedido);
+
+          if (pedidoAtual && pedidoAtual.status_pedido === "Aceito") {
+            document.getElementById("mainTitle").textContent =
+              "Match Realizado!";
+            document.getElementById("mainText").textContent =
+              "Um profissional aceitou seu chamado! Redirecionando para o chat...";
+
+            setTimeout(() => {
+              window.location.href = `telaChat.html?id=${idPedido}`;
+            }, 2000);
+          }
+        } catch (erro) {
+          console.error("Erro ao verificar status:", erro);
+        }
+      }
+
+      // Verifica o banco a cada 5 segundos
+      const checagemNotificacao = setInterval(verificarStatus, 5000);
+
+      async function cancelarPedido() {
+        if (!confirm("Deseja realmente cancelar este pedido?")) return;
+
+        // Aqui você poderia fazer um fetch DELETE ou UPDATE para 'Cancelado' no banco
+        alert("Pedido cancelado.");
+        window.location.href = "home.html";
+      }
+    </script>
+  </body>
+</html>

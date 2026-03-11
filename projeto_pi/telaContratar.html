@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ServiçosJá - Detalhes do Profissional</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-container background-contratar">
+      <header class="header-laranja-contratar">
+        <div class="logo-circle-s">
+          <a href="telaLogin.html">
+            <img src="./fotos/logo_servico.png" alt="S" />
+          </a>
+        </div>
+        <button class="btn-voltar" onclick="window.history.back()">‹</button>
+      </header>
+
+      <main class="perfil-detalhado">
+        <div class="foto-central-wrapper">
+          <img
+            src="./fotos/foto_perfil.png"
+            alt="Foto do Profissional"
+            class="foto-perfil-grande"
+            id="fotoProfissional"
+          />
+        </div>
+
+        <div class="badges-topo">
+          <div class="badge-item" id="precoProfissional">R$ --</div>
+          <div class="badge-item badge-estrela" id="notaProfissional">
+            ⭐ --
+          </div>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-box nome-full" id="nomeProfissional">
+            Carregando...
+          </div>
+          <div class="info-box" id="generoProfissional">Carregando...</div>
+          <div class="info-box" id="idadeProfissional">Carregando...</div>
+          <div class="info-box" id="profissaoProfissional">Carregando...</div>
+        </div>
+
+        <div class="secao-habilidades">
+          <h3>Habilidades:</h3>
+          <div class="habilidades-container" id="containerHabilidades">
+            <p>Carregando...</p>
+          </div>
+        </div>
+
+        <div class="secao-agendamento">
+          <div class="input-data-display">Data: 09/02/2026 📅</div>
+          <p class="distancia-texto"><strong>920m</strong> de você</p>
+        </div>
+
+        <button
+          class="btn-contratar-final"
+          onclick="window.location.href = 'telaLocalizacao.html'"
+        >
+          Contratar agora
+        </button>
+      </main>
+
+      <footer class="footer-gradient-bottom"></footer>
+    </div>
+
+    <style>
+      .background-contratar {
+        background: #ffffff;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .header-laranja-contratar {
+        background-color: #ff8a00;
+        height: 120px;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+      .logo-circle-s img {
+        width: 60px;
+        height: 60px;
+      }
+      .btn-voltar {
+        background: none;
+        border: none;
+        font-size: 2.5rem;
+        color: #000;
+        cursor: pointer;
+      }
+      .foto-central-wrapper {
+        display: flex;
+        justify-content: center;
+        margin-top: -60px;
+        margin-bottom: 20px;
+      }
+      .foto-perfil-grande {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #fff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        background: #eee;
+      }
+      .badges-topo {
+        display: flex;
+        justify-content: space-around;
+        padding: 0 20px;
+        margin-bottom: 20px;
+      }
+      .badge-item {
+        border: 1.5px solid #ff8a00;
+        padding: 8px 20px;
+        border-radius: 10px;
+        font-weight: bold;
+        font-size: 1.1rem;
+      }
+      .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        padding: 0 20px;
+        margin-bottom: 25px;
+      }
+      .info-box {
+        border: 1.5px solid #ff8a00;
+        border-radius: 15px;
+        padding: 8px 15px;
+        text-align: center;
+        font-size: 0.95rem;
+      }
+      .nome-full {
+        grid-column: span 1;
+        text-align: left;
+      }
+      .secao-habilidades {
+        padding: 0 20px;
+        margin-bottom: 30px;
+      }
+      .habilidades-container {
+        background-color: #f1f1f1;
+        border-radius: 15px;
+        padding: 15px;
+        margin-top: 10px;
+      }
+      .habilidades-container p {
+        margin: 5px 0;
+        font-size: 0.95rem;
+        color: #333;
+      }
+      .secao-agendamento {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+      .input-data-display {
+        background-color: #ffcc99;
+        display: inline-block;
+        padding: 10px 30px;
+        border-radius: 15px;
+        border: 1.5px solid #ff8a00;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .distancia-texto {
+        font-size: 0.9rem;
+        color: #000;
+      }
+      .btn-contratar-final {
+        display: block;
+        margin: 0 auto 40px auto;
+        background: #fff;
+        border: 1.5px solid #ff0000;
+        padding: 12px 40px;
+        border-radius: 15px;
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
+    </style>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        // TRUQUE DE TESTE: Pegando o ID do usuário logado só para ver a tela preencher sozinha
+        const idParaTestar = localStorage.getItem("usuarioId");
+
+        if (!idParaTestar) {
+          alert("Erro: Nenhum ID encontrado para testar.");
+          return;
+        }
+
+        try {
+          const resposta = await fetch(
+            `https://testenpm.vercel.app/perfil/${idParaTestar}`,
+          );
+          const dados = await resposta.json();
+
+          if (resposta.ok) {
+            // 1. Preenche Nome, Gênero e Profissão
+            document.getElementById("nomeProfissional").textContent =
+              dados.nome_usuario || "Nome não informado";
+            document.getElementById("generoProfissional").textContent =
+              dados.genero_usuario || "Não Declarado";
+            document.getElementById("profissaoProfissional").textContent =
+              dados.profissoes_usuario || "Profissional";
+
+            // 2. Preenche a Foto
+            if (dados.foto_perfil) {
+              document.getElementById("fotoProfissional").src =
+                dados.foto_perfil;
+            }
+
+            // 3. Calcula a Idade usando a Data de Nascimento do banco
+            if (dados.dat_nasc_usuario) {
+              const dataNasc = new Date(dados.dat_nasc_usuario);
+              const hoje = new Date();
+              let idade = hoje.getFullYear() - dataNasc.getFullYear();
+              const mes = hoje.getMonth() - dataNasc.getMonth();
+              if (
+                mes < 0 ||
+                (mes === 0 && hoje.getDate() < dataNasc.getDate())
+              ) {
+                idade--;
+              }
+              document.getElementById("idadeProfissional").textContent =
+                `${idade} anos`;
+            } else {
+              document.getElementById("idadeProfissional").textContent =
+                "Idade Oculta";
+            }
+
+            // 4. Preenche os dados profissionais (Preço e Nota)
+            if (dados.preco_base) {
+              document.getElementById("precoProfissional").textContent =
+                `R$ ${dados.preco_base}`;
+            }
+            if (dados.nota_media) {
+              document.getElementById("notaProfissional").textContent =
+                `⭐ ${dados.nota_media}`;
+            }
+
+            // 5. Mágica das Habilidades
+            const containerHab = document.getElementById(
+              "containerHabilidades",
+            );
+            containerHab.innerHTML = "";
+
+            if (dados.habilidades) {
+              const listaHabilidades = dados.habilidades.split(",");
+              listaHabilidades.forEach((habilidade) => {
+                const p = document.createElement("p");
+                p.textContent = habilidade.trim();
+                containerHab.appendChild(p);
+              });
+            } else {
+              containerHab.innerHTML = "<p>Nenhuma habilidade cadastrada.</p>";
+            }
+          }
+        } catch (erro) {
+          console.error("Erro ao carregar profissional:", erro);
+        }
+      });
+    </script>
+  </body>
+</html>

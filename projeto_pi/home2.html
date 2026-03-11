@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ServiçosJá - Home</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="app-container">
+      <header class="main-header">
+        <div class="header-content">
+          <div class="user-box" onclick="toggleMenu()">
+            <div class="profile-wrapper">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                alt="Perfil"
+                id="imgHeader"
+              />
+              <div
+                id="letraHeader"
+                class="avatar-letra"
+                style="display: none"
+              ></div>
+            </div>
+          </div>
+          <div class="logo-text">Serviços<span>Já</span></div>
+          <div class="menu-icon" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </header>
+
+      <nav id="sideMenu" class="side-menu">
+        <div class="menu-profile-header">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+            alt="Perfil"
+            id="imgMenu"
+          />
+          <div
+            id="letraMenu"
+            class="avatar-letra-grande"
+            style="display: none"
+          ></div>
+          <h3 id="nomeUsuarioMenu">Carregando...</h3>
+        </div>
+        <ul class="menu-links">
+          <li><a href="telaPerfil.html">👤 Meu Perfil</a></li>
+          <li><a href="telaHistorico.html">📜 Histórico</a></li>
+          <li><a href="telaSuporte.html">🎧 Suporte</a></li>
+          <li class="separator"></li>
+          <li><a href="#" id="btnSair" class="logout-link">🚪 Sair</a></li>
+        </ul>
+      </nav>
+
+      <main class="content">
+        <div id="viewContratante" class="view-section">
+          <div class="welcome-msg">
+            <h2>O que vamos resolver hoje?</h2>
+          </div>
+
+          <div
+            class="action-card-main"
+            onclick="window.location.href = 'telaSolicitacao.html'"
+          >
+            <div class="card-icon">🔍</div>
+            <div class="card-info">
+              <span>Solicitar Novo Serviço</span>
+              <p>Encontre profissionais agora</p>
+            </div>
+            <div class="card-arrow">→</div>
+          </div>
+
+          <div class="status-section">
+            <h3>🕒 Status dos Meus Pedidos</h3>
+            <div id="listaStatusCliente" class="status-list">
+              <p class="empty-msg">Nenhum serviço solicitado recentemente.</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="viewProfissional" class="view-section" style="display: none">
+          <div class="divider-line"></div>
+          <div class="pro-header">
+            <h3>📋 Minha Lista de Tarefas</h3>
+            <span class="online-badge">Online</span>
+          </div>
+          <div id="listaPedidosProfissional" class="task-list">
+            <p class="empty-msg">Buscando novas oportunidades...</p>
+          </div>
+        </div>
+      </main>
+
+      <footer class="bottom-bar"></footer>
+    </div>
+
+    <style>
+      :root {
+        --laranja: #ff8a00;
+        --azul-escuro: #002d5e;
+        --branco: #ffffff;
+        --cinza-fundo: #f8f9fa;
+        --verde-sucesso: #28a745;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      body {
+        background-color: var(--cinza-fundo);
+        color: #333;
+        overflow-x: hidden;
+      }
+
+      /* HEADER */
+      .main-header {
+        background: linear-gradient(135deg, var(--laranja) 0%, #ff5c00 100%);
+        padding: 40px 20px 25px;
+        border-radius: 0 0 30px 30px;
+        box-shadow: 0 4px 15px rgba(255, 138, 0, 0.3);
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .profile-wrapper {
+        width: 50px;
+        height: 50px;
+        position: relative;
+        cursor: pointer;
+      }
+      .profile-wrapper img,
+      .avatar-letra {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 2px solid white;
+        object-fit: cover;
+        background: #eee;
+      }
+      .avatar-letra {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: var(--azul-escuro);
+        color: white;
+        font-weight: bold;
+      }
+
+      .logo-text {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: var(--azul-escuro);
+        text-transform: uppercase;
+        letter-spacing: -1px;
+      }
+      .logo-text span {
+        color: white;
+      }
+
+      .menu-icon span {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background: var(--azul-escuro);
+        margin: 5px 0;
+        border-radius: 2px;
+      }
+
+      /* CONTENT */
+      .content {
+        padding: 20px;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+      .welcome-msg h2 {
+        font-size: 1.2rem;
+        color: var(--azul-escuro);
+        margin: 10px 0 20px;
+        font-weight: 700;
+      }
+
+      /* CARDS */
+      .action-card-main {
+        background: var(--branco);
+        padding: 20px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        cursor: pointer;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        transition: 0.3s;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      .action-card-main:active {
+        transform: scale(0.96);
+      }
+
+      .card-icon {
+        font-size: 2rem;
+        background: #fff3e0;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+      }
+      .card-info span {
+        display: block;
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: var(--azul-escuro);
+      }
+      .card-info p {
+        font-size: 0.85rem;
+        color: #888;
+      }
+      .card-arrow {
+        margin-left: auto;
+        color: var(--laranja);
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+
+      /* LISTAS */
+      .status-section,
+      .view-section {
+        margin-top: 30px;
+        width: 100%;
+      }
+      h3 {
+        font-size: 1rem;
+        color: var(--azul-escuro);
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .status-card {
+        background: white;
+        border-radius: 15px;
+        padding: 15px;
+        margin-bottom: 12px;
+        border-left: 5px solid var(--laranja);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+      }
+
+      .task-item {
+        background: white;
+        border-radius: 18px;
+        padding: 20px;
+        margin-bottom: 15px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+        border: 1px solid #eee;
+      }
+      .task-badge {
+        background: #e8f5e9;
+        color: var(--verde-sucesso);
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 700;
+      }
+
+      .btn-match-task {
+        width: 100%;
+        background: var(--verde-sucesso);
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 12px;
+        font-weight: 700;
+        margin-top: 15px;
+        cursor: pointer;
+      }
+
+      /* MENU LATERAL */
+      .side-menu {
+        position: fixed;
+        top: 0;
+        right: -280px;
+        width: 280px;
+        height: 100%;
+        background: white;
+        z-index: 1000;
+        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        padding: 40px 20px;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+      }
+      .side-menu.active {
+        right: 0;
+      }
+      .menu-profile-header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .menu-profile-header img,
+      .avatar-letra-grande {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        margin: 0 auto 15px;
+        border: 3px solid var(--laranja);
+        object-fit: cover;
+      }
+      .avatar-letra-grande {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: var(--azul-escuro);
+        color: white;
+        font-size: 2.5rem;
+      }
+
+      .menu-links {
+        list-style: none;
+      }
+      .menu-links li {
+        margin-bottom: 5px;
+      }
+      .menu-links a {
+        text-decoration: none;
+        color: #444;
+        font-weight: 600;
+        display: block;
+        padding: 12px 15px;
+        border-radius: 10px;
+        transition: 0.2s;
+      }
+      .menu-links a:hover {
+        background: #f0f0f0;
+        color: var(--laranja);
+      }
+      .logout-link {
+        color: #ff4444 !important;
+      }
+      .separator {
+        height: 1px;
+        background: #eee;
+        margin: 15px 0;
+      }
+
+      .online-badge {
+        background: var(--verde-sucesso);
+        color: white;
+        font-size: 0.7rem;
+        padding: 2px 8px;
+        border-radius: 10px;
+        margin-left: 10px;
+      }
+      .pro-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .empty-msg {
+        text-align: center;
+        color: #bbb;
+        font-size: 0.9rem;
+        padding: 20px;
+      }
+    </style>
+
+    <script>
+      const idUsuario = localStorage.getItem("usuarioId");
+      const nomeSalvo = localStorage.getItem("usuarioNome");
+
+      if (!idUsuario) {
+        window.location.href = "telaLogin.html";
+      }
+
+      async function inicializarHome() {
+        if (nomeSalvo) {
+          const primeiroNome = nomeSalvo.split(" ")[0];
+          document.getElementById("nomeUsuarioMenu").textContent =
+            `Olá, ${primeiroNome}!`;
+        }
+
+        try {
+          const resposta = await fetch(
+            `https://testenpm.vercel.app/perfil/${idUsuario}`,
+          );
+          const dados = await resposta.json();
+
+          if (resposta.ok) {
+            configurarFotosPerfil(dados);
+            carregarStatusPedidosCliente();
+
+            if (
+              dados.profissoes_usuario &&
+              dados.profissoes_usuario !== "Profissional" &&
+              dados.profissoes_usuario !== "Selecione uma Opção"
+            ) {
+              document.getElementById("viewProfissional").style.display =
+                "block";
+              carregarPedidosPendentes();
+            }
+          }
+        } catch (erro) {
+          console.error("Erro:", erro);
+        }
+      }
+
+      function configurarFotosPerfil(dados) {
+        const letraInicial = nomeSalvo
+          ? nomeSalvo.charAt(0).toUpperCase()
+          : "?";
+        if (dados.foto_perfil) {
+          document.getElementById("imgHeader").src = dados.foto_perfil;
+          document.getElementById("imgMenu").src = dados.foto_perfil;
+        } else {
+          document.getElementById("imgHeader").style.display = "none";
+          const lH = document.getElementById("letraHeader");
+          lH.textContent = letraInicial;
+          lH.style.display = "flex";
+
+          document.getElementById("imgMenu").style.display = "none";
+          const lM = document.getElementById("letraMenu");
+          lM.textContent = letraInicial;
+          lM.style.display = "flex";
+        }
+      }
+
+      async function carregarPedidosPendentes() {
+        const container = document.getElementById("listaPedidosProfissional");
+        try {
+          const r = await fetch(
+            `https://testenpm.vercel.app/pedidos/${idUsuario}`,
+          );
+          const pedidos = await r.json();
+          container.innerHTML = pedidos.length
+            ? ""
+            : "<p class='empty-msg'>Nenhuma tarefa pendente para hoje.</p>";
+          pedidos.forEach((p) => {
+            const div = document.createElement("div");
+            div.className = "task-item";
+            div.innerHTML = `
+                      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                        <strong style="color:var(--azul-escuro)">${p.nome_cliente}</strong>
+                        <span class="task-badge">NOVO CHAMADO</span>
+                      </div>
+                      <p style="font-size: 0.85rem; color:#666;">📍 ${p.endereco_servico}</p>
+                      <p style="font-size: 0.8rem; color:#999; margin-top:5px;">💬 ${p.descricao_servico}</p>
+                      <button class="btn-match-task" onclick="darMatch(${p.id_solicitacao})">ACEITAR SERVIÇO</button>`;
+            container.appendChild(div);
+          });
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      async function darMatch(idPedido) {
+        // 1. Pede confirmação antes de aceitar
+        if (!confirm("Deseja aceitar este serviço agora?")) return;
+
+        // 2. Tenta fazer o match no banco de dados
+        try {
+          const resposta = await fetch(
+            `https://testenpm.vercel.app/pedidos/${idPedido}/aceitar`,
+            {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ idProfissional: idUsuario }), // idUsuario é o ID do técnico logado
+            },
+          );
+
+          const resultado = await resposta.json();
+
+          // 3. Se deu tudo certo, avisa e joga o técnico direto pro chat!
+          if (resposta.ok) {
+            alert(
+              "Match realizado! O cliente já foi notificado. Iniciando chat...",
+            );
+            window.location.href = `telaChat.html?id=${idPedido}`;
+          } else {
+            // Se alguém aceitou milissegundos antes, dá o aviso e recarrega a lista
+            alert(
+              resultado.erro ||
+                "Este pedido já foi aceito por outro profissional.",
+            );
+            carregarPedidosPendentes();
+          }
+        } catch (erro) {
+          console.error("Erro ao realizar match:", erro);
+          alert("Erro de conexão com o servidor. Tente novamente.");
+        }
+      }
+
+      async function carregarStatusPedidosCliente() {
+        const container = document.getElementById("listaStatusCliente");
+        try {
+          const r = await fetch(
+            `https://testenpm.vercel.app/pedidos-cliente/${idUsuario}`,
+          );
+          const pedidos = await r.json();
+          if (pedidos.length > 0) {
+            container.innerHTML = "";
+            pedidos.forEach((p) => {
+              const aceito = p.status_pedido === "Aceito";
+              const cor = aceito ? "var(--verde-sucesso)" : "var(--laranja)";
+              const div = document.createElement("div");
+              div.className = "status-card";
+              div.style.borderLeftColor = cor;
+              div.innerHTML = `
+                        <div style="display:flex; justify-content:space-between;">
+                          <strong>${p.tipo_servico}</strong>
+                          <span style="font-size:0.7rem; font-weight:700; color:${cor}">${p.status_pedido.toUpperCase()}</span>
+                        </div>
+                        <p style="font-size:0.8rem; color:#777; margin-top:5px;">${aceito ? "✅ O profissional aceitou seu chamado!" : "⏳ Aguardando confirmação..."}</p>
+                      `;
+              container.appendChild(div);
+            });
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      function toggleMenu() {
+        document.getElementById("sideMenu").classList.toggle("active");
+      }
+      document.getElementById("btnSair").addEventListener("click", () => {
+        if (confirm("Deseja realmente sair?")) {
+          localStorage.clear();
+          window.location.href = "telaLogin.html";
+        }
+      });
+
+      document.addEventListener("DOMContentLoaded", inicializarHome);
+    </script>
+  </body>
+</html>

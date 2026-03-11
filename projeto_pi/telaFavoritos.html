@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ServiçosJá - Favoritos</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="app-container fav-bg">
+      <header class="header-premium">
+        <button
+          class="btn-back-fav"
+          onclick="window.location.href = 'home.html'"
+        >
+          ‹
+        </button>
+        <h1>Meus Favoritos</h1>
+      </header>
+
+      <main class="lista-conteudo" id="listaFavoritos">
+        <p class="loading-msg">Buscando seus profissionais favoritos...</p>
+      </main>
+
+      <div id="janelaAviso" class="modal-overlay">
+        <div class="modal-caixa">
+          <div class="modal-icon">⚠️</div>
+          <p>Remover este profissional da sua lista de favoritos?</p>
+          <div class="modal-btns">
+            <button class="btn-confirmar" id="confirmarDelete">Remover</button>
+            <button class="btn-cancelar" onclick="fecharAviso()">
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer-bar"></footer>
+    </div>
+
+    <style>
+      :root {
+        --laranja: #ff8a00;
+        --azul-escuro: #002d5e;
+        --branco: #ffffff;
+        --cinza-fundo: #f8f9fa;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      .fav-bg {
+        background: linear-gradient(
+          180deg,
+          var(--laranja) 0%,
+          var(--cinza-fundo) 15%,
+          var(--cinza-fundo) 100%
+        );
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* HEADER */
+      .header-premium {
+        padding: 45px 20px 20px;
+        display: flex;
+        align-items: center;
+        color: var(--azul-escuro);
+      }
+
+      .btn-back-fav {
+        background: var(--branco);
+        border: none;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        font-size: 1.8rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        color: var(--azul-escuro);
+        transition: 0.3s;
+      }
+
+      .btn-back-fav:active {
+        transform: scale(0.9);
+      }
+
+      .header-premium h1 {
+        flex-grow: 1;
+        text-align: center;
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-right: 45px;
+      }
+
+      /* CARDS */
+      .lista-conteudo {
+        padding: 10px 20px;
+        flex-grow: 1;
+        max-width: 500px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .card-fav {
+        background: var(--branco);
+        margin-bottom: 15px;
+        padding: 15px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.03);
+        transition: 0.3s;
+      }
+
+      .foto-perfil {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--laranja);
+      }
+
+      .info-texto {
+        flex-grow: 1;
+        margin-left: 15px;
+      }
+      .info-texto h3 {
+        font-size: 1rem;
+        color: var(--azul-escuro);
+        margin-bottom: 2px;
+      }
+      .info-texto p {
+        font-size: 0.8rem;
+        color: #777;
+        font-weight: 500;
+      }
+
+      .acoes-coluna {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
+      }
+
+      .btn-remover-icon {
+        background: #fff0f0;
+        border: none;
+        color: #ff4444;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .btn-solicitar-fav {
+        background-color: var(--laranja);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 0.75rem;
+        box-shadow: 0 4px 10px rgba(255, 138, 0, 0.2);
+        cursor: pointer;
+      }
+
+      /* MODAL */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 45, 94, 0.6);
+        backdrop-filter: blur(4px);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal-caixa {
+        background: white;
+        padding: 30px;
+        border-radius: 25px;
+        width: 85%;
+        max-width: 320px;
+        text-align: center;
+      }
+
+      .modal-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+      }
+      .modal-caixa p {
+        font-weight: 600;
+        color: var(--azul-escuro);
+        line-height: 1.4;
+      }
+
+      .modal-btns {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 25px;
+      }
+
+      .btn-confirmar {
+        background: #ff4444;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 15px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .btn-cancelar {
+        background: #f0f2f5;
+        color: #666;
+        border: none;
+        padding: 12px;
+        border-radius: 15px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .footer-bar {
+        height: 60px;
+      }
+      .loading-msg {
+        text-align: center;
+        color: #999;
+        margin-top: 50px;
+        font-style: italic;
+      }
+    </style>
+
+    <script>
+      let idParaRemover = null;
+      const idUsuarioLogado = localStorage.getItem("usuarioId");
+
+      // 1. FUNÇÃO PARA BUSCAR FAVORITOS REAIS (SIMULADA OU VIA FETCH)
+      async function carregarFavoritos() {
+        const container = document.getElementById("listaFavoritos");
+
+        // Aqui você faria um fetch para: `/favoritos/${idUsuarioLogado}`
+        // Por enquanto, vamos simular que o banco retornou estes dados:
+        const favoritosSimulados = [
+          {
+            id: 101,
+            nome: "Antonio dos Santos",
+            cargo: "Eletricista Especialista",
+            foto: "https://randomuser.me/api/portraits/men/10.jpg",
+          },
+          {
+            id: 102,
+            nome: "Gabriel Van Bagres",
+            cargo: "Bombeiro Hidráulico",
+            foto: "https://randomuser.me/api/portraits/men/11.jpg",
+          },
+        ];
+
+        container.innerHTML = "";
+
+        if (favoritosSimulados.length === 0) {
+          container.innerHTML =
+            '<p class="loading-msg">Você ainda não tem favoritos.</p>';
+          return;
+        }
+
+        favoritosSimulados.forEach((fav) => {
+          const card = document.createElement("div");
+          card.className = "card-fav";
+          card.id = `fav-${fav.id}`;
+          card.innerHTML = `
+                    <img src="${fav.foto}" class="foto-perfil">
+                    <div class="info-texto">
+                        <h3>${fav.nome}</h3>
+                        <p>${fav.cargo}</p>
+                    </div>
+                    <div class="acoes-coluna">
+                        <button class="btn-remover-icon" onclick="abrirAviso(${fav.id})">×</button>
+                        <button class="btn-solicitar-fav" onclick="window.location.href='telaSolicitacao.html'">Solicitar</button>
+                    </div>
+                `;
+          container.appendChild(card);
+        });
+      }
+
+      // 2. LÓGICA DO MODAL
+      function abrirAviso(id) {
+        idParaRemover = id;
+        document.getElementById("janelaAviso").style.display = "flex";
+      }
+
+      function fecharAviso() {
+        document.getElementById("janelaAviso").style.display = "none";
+        idParaRemover = null;
+      }
+
+      document
+        .getElementById("confirmarDelete")
+        .addEventListener("click", async () => {
+          if (idParaRemover) {
+            // Aqui você enviaria um DELETE para o seu servidor:
+            // await fetch(`/favoritos/${idUsuarioLogado}/${idParaRemover}`, { method: 'DELETE' });
+
+            const elemento = document.getElementById(`fav-${idParaRemover}`);
+            elemento.style.opacity = "0";
+            elemento.style.transform = "translateX(50px)";
+
+            setTimeout(() => {
+              elemento.remove();
+              fecharAviso();
+              // Se a lista esvaziar, mostra msg
+              if (document.querySelectorAll(".card-fav").length === 0) {
+                document.getElementById("listaFavoritos").innerHTML =
+                  '<p class="loading-msg">Sua lista está vazia.</p>';
+              }
+            }, 300);
+          }
+        });
+
+      // Inicializa a tela
+      document.addEventListener("DOMContentLoaded", carregarFavoritos);
+    </script>
+  </body>
+</html>

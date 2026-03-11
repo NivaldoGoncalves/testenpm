@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ServiçosJá - Trabalhe Conosco</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container background-perfil">
+            <img src="fotos/remover 1.png" alt="Botão de Saída" id="imagem"  onclick="window.location.href='home2.html'">
+        <header class="header-trabalhe">
+            <div class="icon-worker">
+                <img src="./fotos/trabalhador 1.png" alt="Trabalhador" id="trabalhar">
+            </div>
+            <h1>Trabalhe Conosco</h1>
+        </header>
+
+        <main class="form-container">
+            <form id="formAfiliar">
+                <div class="input-trabalhe">
+                    <input type="text" placeholder="CPF: 111.222.333-44">
+                </div>
+
+                <div class="input-trabalhe input-icon">
+                    <select name="profissao" id="profissao">
+                    <option value="alfaiate">Alfaiate</option>
+                    <option value="animadorFesta">Animador de festas</option>
+                    <option value="bombeiroHidraulico">Bombeiro Hidráulico</option>
+                    <option value="dodWalker">Caminhador com cães</option>
+                    <option value="carpinteiro">Carpinteiro</option>
+                    <option value="chaveiro">Chaveiro</option>
+                    <option value="churrasqueiro">Churrasqueiro</option>
+                    <option value="confeiteiro">Confeiteiro</option>
+                    <option value="cuidadorIdoso">Cuidador Idoso</option>
+                    <option value="cuidadoraInfantil">Cuidadora Infantil</option>
+                    <option value="diarista">Diarista</option>
+                    <option value="docenteParticular">Docente Particular</option>
+                    <option value="eletricista">Eletricista</option>
+                    <option value="estofador">Estofador</option>
+                    <option value="fotografo">Fotógrafo</option>
+                    <option value="garcom">Garçom</option>
+                    <option value="jardineiro">Jardineiro</option>
+                    <option value="limpadorPiscina">Limpador de Piscina</option>
+                    <option value="limpadorTerreno">Limpador de Terrenos</option>
+                    <option value="pedreiro">Pedreiro</option>
+                    <option value="pintor">Pintor</option>
+                    <option value="servicoFrete">Serviço de Frete</option>
+                    <option value="vigilante">Serviço de Vigilante</option>
+                    <option value="tecnicoInformatica">Técnico em Informática</option>
+                    </select>
+                </div>
+
+                <div class="row-dupla">
+                    <div class="input-trabalhe half">
+                        <input type="date" id="hoje">
+                    </div>
+                    <div class="input-trabalhe half">
+                        <input type="text" placeholder="CNH: Tipo A">
+                    </div>
+                </div>
+
+                <div class="input-trabalhe">
+                    <select id="habilidades" class="select-habilidades">
+                        <option value="eletrica">Instalações Elétricas</option>
+                        <option value="hidraulica">Reparos Hidráulicos</option>
+                        <option value="pintura">Pintura e Acabamento</option>
+                        <option value="informatica">Suporte Técnico TI</option>
+                        <option value="limpeza">Limpeza Residencial</option>
+                    </select>
+                </div>
+
+                <div class="checkbox-group">
+                    <p>Aceita Serviços Urgentes?</p>
+                    <label class="check-label">
+                        <input type="radio" name="urgente" value="sim" checked> Sim
+                    </label>
+                    <label class="check-label">
+                        <input type="radio" name="urgente" value="nao"> Não
+                    </label>
+                </div>
+
+                <div class="upload-foto-container">
+    <label for="inputFoto" class="upload-box" id="dropZone">
+        <p id="textoFoto">Foto de perfil <span class="plus-icon">+</span></p>
+        <img id="previaFoto" src="" alt="Prévia" style="display: none; width: 100%; height: 100%; border-radius: 20px; object-fit: cover;">
+        <div class="camera-icon" id="iconCamera"> <img src="./fotos/pastor.png" alt="Daniel"></div>
+        <input type="file" id="inputFoto" accept="image/*" style="display: none;">
+    </label>
+</div>
+
+                <button type="submit" class="btn-afiliar" id="btnAfiliar" ">
+    Alterar
+</button>
+            </form>
+        </main>
+
+        <footer class="footer-gradient-bottom"></footer>
+    </div>
+
+    <style>
+        /* Fundo degradê característico */
+.background-perfil {
+    background: linear-gradient(180deg, #FF8A00 0%, #FFFFFF 20%, #FFFFFF 85%, #FF8A00 100%);
+    min-height: 100vh;
+}
+
+.header-trabalhe {
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    
+}
+
+#imagem {
+    margin: 20px;
+
+}
+
+.icon-worker img {
+    width: 80px;
+    margin-bottom: 10px;
+}
+
+.header-trabalhe h1 {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.form-container {
+    padding: 0 30px;
+}
+
+/* Campos de Input seguindo a imagem */
+.input-trabalhe {
+    margin-bottom: 12px;
+    border: 1.5px solid #FF7F50; /* Cor coral da borda */
+    border-radius: 15px;
+    background: white;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-trabalhe input, .select-habilidades, #profissao {
+    width: 100%;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 15px;
+    outline: none;
+    font-size: 0.9rem;
+    background: transparent;
+}
+
+.input-icon .edit-pen {
+    position: absolute;
+    right: 15px;
+    font-size: 1.2rem;
+}
+
+.row-dupla {
+    display: flex;
+    gap: 10px;
+}
+
+.half { flex: 1; }
+
+.icon-calendar {
+    position: absolute;
+    right: 10px;
+}
+
+/* Estilo do Select */
+.select-habilidades {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 12px;
+}
+
+/* Checkboxes */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 15px 0;
+    font-size: 0.85rem;
+}
+
+.check-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Box de Foto */
+.upload-foto-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.upload-box {
+    width: 180px;
+    height: 120px;
+    border: 1.5px solid #FF7F50;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: white;
+}
+
+.camera-icon {
+    font-size: 2.5rem;
+}
+
+/* Botão Afiliar */
+.btn-afiliar {
+    display: block;
+    width: 60%;
+    margin: 20px auto;
+    padding: 12px;
+    border: 1.5px solid #FF7F50;
+    background: white;
+    border-radius: 20px;
+    font-weight: bold;
+    color: #FF8A00;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+#imagem {
+    margin: 20px;
+    cursor: pointer;
+    width: 30px; /* Ajuste o tamanho se necessário */
+    transition: transform 0.2s;
+}
+
+#imagem:hover {
+    transform: scale(1.1);
+}
+    </style>
+
+    <script>
+        const dataHoje = () => {
+          const data = document.getElementById("hoje")
+          data ==  new Date().toLocaleDateString('en-ca');
+        }
+
+        document.getElementById('inputFoto').addEventListener('change', function(event) {
+    const arquivo = event.target.files[0];
+    const previa = document.getElementById('previaFoto');
+    const icone = document.getElementById('iconCamera');
+    const texto = document.getElementById('textoFoto');
+
+    if (arquivo) {
+        const leitor = new FileReader();
+        leitor.onload = function(e) {
+            previa.src = e.target.result;
+            previa.style.display = 'block';
+            icone.style.display = 'none';
+            texto.style.display = 'none';
+            validarFormulario(); // Valida ao carregar a foto
+        }
+        leitor.readAsDataURL(arquivo);
+    }
+});
+
+const form = document.getElementById('formAfiliar');
+const btnAfiliar = document.getElementById('btnAfiliar');
+
+// Seleciona TODOS os campos necessários (texto, data e os dois selects)
+const camposParaValidar = form.querySelectorAll('input[type="text"], input[type="date"], select');
+const radiosUrgente = form.querySelectorAll('input[name="urgente"]');
+const inputFoto = document.getElementById('inputFoto');
+
+function validarFormulario() {
+    let todosPreenchidos = true;
+
+    // 1. Verifica Textos, Datas e Selects
+    camposParaValidar.forEach(campo => {
+        const valor = campo.value.trim();
+        // Verifica se está vazio ou se os selects estão nas opções padrão
+        if (valor === "" || valor === "Profissão:" || valor === "Selecionar Habilidades") {
+            todosPreenchidos = false;
+        }
+    });
+
+    // 2. Verifica os Radios (Sim/Não)
+    const algumRadioCheckado = Array.from(radiosUrgente).some(radio => radio.checked);
+    if (!algumRadioCheckado) todosPreenchidos = false;
+
+    // 3. Verifica a Foto
+    if (inputFoto.files.length === 0) {
+        todosPreenchidos = false;
+    }
+
+    // Atualiza o estado do botão
+    if (todosPreenchidos) {
+        btnAfiliar.disabled = false;
+        btnAfiliar.style.opacity = "1";
+        btnAfiliar.style.cursor = "pointer";
+    } else {
+        btnAfiliar.disabled = true;
+        btnAfiliar.style.opacity = "0.5";
+        btnAfiliar.style.cursor = "not-allowed";
+    }
+}
+
+// Escuta mudanças em todos os campos
+camposParaValidar.forEach(campo => {
+    campo.addEventListener('input', validarFormulario);
+    campo.addEventListener('change', validarFormulario);
+});
+
+radiosUrgente.forEach(radio => {
+    radio.addEventListener('change', validarFormulario);
+});
+
+// Envio final
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert("Alteração realizada com sucesso!.");
+    window.location.href = 'home2.html'; 
+}); 
+    </script>
+</body>
+</html>

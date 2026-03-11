@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ServiçosJá - Chat</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --laranja: #ff8a00;
+        --azul: #002d5e;
+        --cinza: #f0f2f5;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Montserrat", sans-serif;
+      }
+      body {
+        background: var(--cinza);
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Header */
+      header {
+        background: linear-gradient(135deg, var(--laranja), #ff5c00);
+        padding: 40px 20px 15px;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .btn-voltar {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 2rem;
+        cursor: pointer;
+      }
+      .info-chat h2 {
+        font-size: 1rem;
+      }
+      .info-chat p {
+        font-size: 0.7rem;
+        opacity: 0.9;
+      }
+
+      /* Janela de Chat */
+      #chatWindow {
+        flex-grow: 1;
+        padding: 20px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .balao {
+        max-width: 80%;
+        padding: 12px 16px;
+        border-radius: 15px;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        position: relative;
+      }
+      .minha {
+        align-self: flex-end;
+        background: var(--azul);
+        color: white;
+        border-bottom-right-radius: 2px;
+      }
+      .outra {
+        align-self: flex-start;
+        background: white;
+        color: #333;
+        border-bottom-left-radius: 2px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+      .tempo {
+        font-size: 0.6rem;
+        display: block;
+        margin-top: 5px;
+        opacity: 0.7;
+        text-align: right;
+      }
+
+      /* Footer */
+      footer {
+        padding: 15px;
+        background: white;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      input {
+        flex-grow: 1;
+        padding: 12px 20px;
+        border-radius: 25px;
+        border: 1px solid #ddd;
+        outline: none;
+      }
+      button#btnEnviar {
+        background: var(--laranja);
+        border: none;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+      }
+      /* Adicione isso ao final do seu <style> */
+      .check-lido {
+        color: #4fc3f7; /* Azul claro estilo lido */
+        font-size: 0.8rem;
+        margin-left: 5px;
+        font-weight: bold;
+      }
+
+      .minha .tempo {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      /* Animação para a mensagem subir suavemente */
+      @keyframes subir {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .balao {
+        animation: subir 0.3s ease-out;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <button
+        class="btn-voltar"
+        onclick="window.location.href = 'home.html'"
+      ></button>
+      <button
+        id="btnConcluir"
+        onclick="concluirServico()"
+        style="
+          background: #28a745;
+          color: white;
+          border: none;
+          padding: 5px 10px;
+          border-radius: 5px;
+          font-weight: bold;
+          cursor: pointer;
+          float: right;
+        "
+      >
+        Finalizar Serviço
+      </button>
+      <div class="info-chat">
+        <h2 id="nomeDestinatario">Conversa</h2>
+        <p id="statusServico">Serviço em andamento</p>
+      </div>
+    </header>
+
+    <main id="chatWindow"></main>
+
+    <footer>
+      <input type="text" id="inputMsg" placeholder="Digite uma mensagem..." />
+      <button id="btnEnviar" onclick="enviarMensagem()">➔</button>
+    </footer>
+
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const idSolicitacao = urlParams.get("id");
+      const meuId = localStorage.getItem("usuarioId");
+      let idDestinatario = null;
+
+      // 1. Configuração do Som
+      const somNotificacao = new Audio(
+        "https://assets.mixkit.co/active_storage/sfx/2354/2354-preview.mp3",
+      );
+      let totalMensagensAntigo = 0; // Variável para controlar o bip
+
+      async function inicializarChat() {
+        try {
+          const rPedido = await fetch(
+            `https://testenpm.vercel.app/perfil-pedido/${idSolicitacao}`,
+          );
+          const pedido = await rPedido.json();
+
+          if (meuId == pedido.id_usuario) {
+            idDestinatario = pedido.id_profissional;
+            document.getElementById("nomeDestinatario").textContent =
+              pedido.nome_profissional || "Profissional";
+          } else {
+            idDestinatario = pedido.id_usuario;
+            document.getElementById("nomeDestinatario").textContent =
+              pedido.nome_cliente || "Cliente";
+          }
+
+          buscarMensagens();
+          setInterval(buscarMensagens, 3000);
+        } catch (e) {
+          console.error("Erro ao inicializar chat:", e);
+        }
+      }
+
+      async function buscarMensagens() {
+        if (!idSolicitacao) return;
+        try {
+          const r = await fetch(
+            `https://testenpm.vercel.app/mensagens/${idSolicitacao}`,
+          );
+          const msgs = await r.json();
+          const windowChat = document.getElementById("chatWindow");
+
+          // 2. Lógica do BIP
+          // Se o número de mensagens no banco for maior do que o que tínhamos antes
+          if (msgs.length > totalMensagensAntigo) {
+            const ultimaMsg = msgs[msgs.length - 1];
+
+            // Se a última mensagem NÃO foi enviada por mim E não é o carregamento inicial (0)
+            if (ultimaMsg.id_envia != meuId && totalMensagensAntigo !== 0) {
+              somNotificacao
+                .play()
+                .catch((e) =>
+                  console.log("Áudio bloqueado até interação do usuário."),
+                );
+            }
+
+            // Atualiza o contador para a próxima verificação
+            totalMensagensAntigo = msgs.length;
+
+            // 3. Atualização da Interface (só roda se houver mensagem nova)
+            windowChat.innerHTML = "";
+            // Localize este trecho dentro da função buscarMensagens() e substitua:
+
+            // ... (dentro da função buscarMensagens)
+            msgs.forEach((m) => {
+              const souEu = m.id_envia == meuId;
+              const div = document.createElement("div");
+              div.className = `balao ${souEu ? "minha" : "outra"}`;
+
+              const checkHTML = souEu
+                ? '<span class="check-lido">✓✓</span>'
+                : "";
+
+              div.innerHTML = `
+          ${m.texto_mensagem} 
+          <span class="tempo">
+            ${new Date(m.data_envio).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+            ${checkHTML}
+          </span>
+        `;
+              windowChat.appendChild(div);
+            });
+
+            // Scroll suave para a última mensagem (apenas uma vez)
+            windowChat.scrollTo({
+              top: windowChat.scrollHeight,
+              behavior: "smooth",
+            });
+          } // fecha o if(msgs.length !== ...)
+        } catch (e) {
+          console.error("Erro ao buscar mensagens:", e);
+        }
+      }
+
+      async function enviarMensagem() {
+        const input = document.getElementById("inputMsg");
+        const texto = input.value.trim();
+
+        if (!texto || !idDestinatario) {
+          console.error("Faltam dados: ", { texto, idDestinatario });
+          return;
+        }
+
+        const dados = {
+          idSolicitacao: idSolicitacao,
+          idEnvia: meuId,
+          idRecebe: idDestinatario,
+          texto: texto,
+        };
+
+        try {
+          const r = await fetch(`https://testenpm.vercel.app/mensagens`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dados),
+          });
+
+          if (r.ok) {
+            input.value = "";
+            buscarMensagens(); // Atualiza na hora
+          }
+        } catch (e) {
+          alert("Erro ao enviar.");
+        }
+      }
+      async function concluirServico() {
+        if (!confirm("Deseja marcar este serviço como concluído?")) return;
+
+        try {
+          const r = await fetch(
+            `https://testenpm.vercel.app/pedidos/${idSolicitacao}/concluir`,
+            {
+              method: "PUT",
+            },
+          );
+          if (r.ok) {
+            alert("Serviço concluído com sucesso!");
+            window.location.href = "home.html";
+          }
+        } catch (e) {
+          alert("Erro ao concluir.");
+        }
+      }
+
+      // Inicializa ao carregar a página
+      window.onload = inicializarChat;
+    </script>
+  </body>
+</html>

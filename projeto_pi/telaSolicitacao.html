@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ServiçosJá - Solicitar Serviço</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="fundo-cinza">
+    <header class="header-laranja-contratar">
+      <button class="btn-voltar" onclick="window.history.back()">‹</button>
+      <h1 class="titulo-header">Detalhes do Pedido</h1>
+      <div style="width: 30px"></div>
+    </header>
+
+    <main class="container-solicitacao">
+      <form id="formSolicitacao">
+        <div class="card-formulario">
+          <h3>O que você precisa?</h3>
+
+          <label>Tipo de Serviço:</label>
+          <select id="formularioServico" required class="input-moderno">
+            <option value="" disabled selected>Selecione uma Opção</option>
+            <option value="Bombeiro Hidráulico">Bombeiro Hidráulico</option>
+            <option value="Chaveiro">Chaveiro</option>
+            <option value="Diarista">Diarista</option>
+            <option value="Eletricista">Eletricista</option>
+            <option value="Garçom">Garçom</option>
+            <option value="Pedreiro">Pedreiro</option>
+            <option value="Pintor">Pintor</option>
+            <option value="Outros">Outros...</option>
+          </select>
+
+          <div class="linha-dupla">
+            <div class="metade">
+              <label>Data:</label>
+              <input
+                type="date"
+                id="formularioData"
+                required
+                class="input-moderno"
+              />
+            </div>
+            <div class="metade flex-center">
+              <label>Urgente?</label>
+              <label class="switch">
+                <input type="checkbox" id="urgenciaToggle" />
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-formulario">
+          <h3>Onde e Como?</h3>
+
+          <label>Endereço / Ponto de Referência:</label>
+          <div class="input-com-botao">
+            <input
+              type="text"
+              id="formularioEndereco"
+              required
+              placeholder="Ex: Rua das Flores, 123"
+              class="input-moderno"
+            />
+            <button
+              type="button"
+              class="btn-gps"
+              onclick="pegarLocalizacao()"
+              title="Usar meu GPS"
+            >
+              📍
+            </button>
+          </div>
+
+          <label>Descreva o problema:</label>
+          <textarea
+            id="formularioDescricao"
+            maxlength="150"
+            placeholder="Ex: Preciso que instale 3 tomadas na sala..."
+            class="textarea-moderno"
+            required
+          ></textarea>
+        </div>
+
+        <div class="card-formulario center-text">
+          <h3>Foto do Problema (Opcional)</h3>
+          <label for="selecionar_foto" class="caixa-foto">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+              alt="Upload"
+              id="previewImagem"
+              style="width: 50px; opacity: 0.5"
+            />
+            <p id="textoFoto">Clique para adicionar foto</p>
+          </label>
+          <input
+            type="file"
+            id="selecionar_foto"
+            accept="image/*"
+            style="display: none"
+          />
+        </div>
+
+        <button type="submit" class="btn-solicitar-gigante">
+          Enviar Pedido
+        </button>
+      </form>
+    </main>
+
+    <style>
+      * {
+        font-family: "Montserrat", sans-serif;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      .fundo-cinza {
+        background-color: #f5f7fa;
+        min-height: 100vh;
+        padding-bottom: 40px;
+      }
+
+      .header-laranja-contratar {
+        background-color: #ff8a00;
+        height: 90px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      .btn-voltar {
+        background: none;
+        border: none;
+        font-size: 2.5rem;
+        color: white;
+        cursor: pointer;
+      }
+      .titulo-header {
+        font-size: 1.3rem;
+        font-weight: 600;
+      }
+
+      .container-solicitacao {
+        padding: 20px;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      .card-formulario {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+      .card-formulario h3 {
+        color: #002d5e;
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 5px;
+      }
+      .card-formulario label {
+        font-size: 0.9rem;
+        color: #555;
+        font-weight: 600;
+        display: block;
+        margin-bottom: 5px;
+        margin-top: 15px;
+      }
+
+      .input-moderno,
+      .textarea-moderno {
+        width: 100%;
+        border: 1.5px solid #ccc;
+        border-radius: 10px;
+        padding: 12px;
+        font-size: 1rem;
+        outline: none;
+        background: #fafafa;
+        transition: 0.3s;
+      }
+      .input-moderno:focus,
+      .textarea-moderno:focus {
+        border-color: #ff8a00;
+        background: white;
+      }
+      .textarea-moderno {
+        height: 100px;
+        resize: none;
+      }
+
+      .linha-dupla {
+        display: flex;
+        gap: 15px;
+      }
+      .metade {
+        flex: 1;
+      }
+      .flex-center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Switch Urgência */
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 24px;
+        margin-top: 5px;
+      }
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.4s;
+        border-radius: 34px;
+      }
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+      input:checked + .slider {
+        background-color: #ff0000;
+      }
+      input:checked + .slider:before {
+        transform: translateX(26px);
+      }
+
+      /* Input com Botão GPS */
+      .input-com-botao {
+        display: flex;
+        gap: 10px;
+      }
+      .btn-gps {
+        background: #ff8a00;
+        border: none;
+        border-radius: 10px;
+        width: 50px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: 0.3s;
+      }
+      .btn-gps:hover {
+        background: #e67a00;
+      }
+
+      /* Foto do Problema */
+      .center-text {
+        text-align: center;
+      }
+      .caixa-foto {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border: 2px dashed #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        cursor: pointer;
+        background: #fafafa;
+        transition: 0.3s;
+      }
+      .caixa-foto:hover {
+        border-color: #ff8a00;
+      }
+      .caixa-foto img {
+        margin-bottom: 10px;
+        border-radius: 10px;
+        object-fit: cover;
+      }
+
+      /* Botão Enviar */
+      .btn-solicitar-gigante {
+        width: 100%;
+        background: #002d5e;
+        color: white;
+        border: none;
+        padding: 15px;
+        border-radius: 15px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 45, 94, 0.3);
+        transition: 0.3s;
+      }
+      .btn-solicitar-gigante:hover {
+        background: #001b3a;
+      }
+    </style>
+
+    <script>
+      let imagemBase64 = null;
+
+      // 1. Mostrar preview da foto quando o usuário escolhe uma
+      document
+        .getElementById("selecionar_foto")
+        .addEventListener("change", function (e) {
+          const arquivo = e.target.files[0];
+          if (arquivo) {
+            const leitor = new FileReader();
+            leitor.onload = function (event) {
+              const img = document.getElementById("previewImagem");
+              img.src = event.target.result;
+              img.style.width = "100%";
+              img.style.opacity = "1";
+              document.getElementById("textoFoto").style.display = "none";
+              imagemBase64 = event.target.result;
+            };
+            leitor.readAsDataURL(arquivo);
+          }
+        });
+
+      // 2. Função falsa de GPS só para o botão funcionar visualmente
+      function pegarLocalizacao() {
+        document.getElementById("formularioEndereco").value = "Buscando GPS...";
+        setTimeout(() => {
+          document.getElementById("formularioEndereco").value =
+            "Av. Brasil, Centro";
+        }, 1000);
+      }
+
+      // 3. ENVIO DOS DADOS PARA O SERVIDOR
+      document
+        .getElementById("formSolicitacao")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault(); // Impede a página de recarregar
+
+          // Puxa os IDs da memória
+          const idContratante = localStorage.getItem("usuarioId");
+          const idProfissional =
+            localStorage.getItem("profissionalEscolhido") || null;
+
+          if (!idContratante) {
+            alert("Você precisa estar logado para pedir um serviço!");
+            return;
+          }
+
+          // Monta o pacote de dados com o que o usuário digitou
+          const dadosPedido = {
+            idUsuario: idContratante,
+            idProfissional: idProfissional,
+            urgente: document.getElementById("urgenciaToggle").checked,
+            dataServico: document.getElementById("formularioData").value,
+            tipoServico: document.getElementById("formularioServico").value,
+            endereco: document.getElementById("formularioEndereco").value,
+            descricao: document.getElementById("formularioDescricao").value,
+            imagem: imagemBase64,
+          };
+
+          // Muda o texto do botão para mostrar que está carregando
+          const btn = document.querySelector(".btn-solicitar-gigante");
+          btn.textContent = "Enviando...";
+          btn.disabled = true;
+
+          try {
+            // Envia para o servidor
+            const resposta = await fetch(
+              "https://testenpm.vercel.app/solicitar",
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dadosPedido),
+              },
+            );
+
+            // CORREÇÃO AQUI: Precisamos ler a resposta do servidor para pegar o ID do pedido gerado
+            const resultado = await resposta.json();
+
+            if (resposta.ok) {
+              alert("Pedido enviado com sucesso! Buscando profissionais...");
+
+              // SALVA O ID NO LOCAL STORAGE PARA O RADAR FUNCIONAR
+              if (resultado.pedido && resultado.pedido.id_solicitacao) {
+                localStorage.setItem(
+                  "ultimoPedidoId",
+                  resultado.pedido.id_solicitacao,
+                );
+              }
+
+              // Manda para a tela do mapa/radar!
+              window.location.href = "telaLocalizacao.html";
+            } else {
+              alert("Erro ao enviar o pedido. Tente novamente.");
+              btn.textContent = "Enviar Pedido";
+              btn.disabled = false;
+            }
+          } catch (erro) {
+            console.error("Erro:", erro);
+            alert("Erro de conexão com o servidor.");
+            btn.textContent = "Enviar Pedido";
+            btn.disabled = false;
+          }
+        });
+    </script>
+  </body>
+</html>

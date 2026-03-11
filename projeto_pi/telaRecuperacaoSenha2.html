@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ServiçosJá - Verificar Código</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="auth-container">
+      <header class="header-laranja">
+        <div class="logo-wrapper">
+          <a href="telaLogin.html">
+            <img src="./fotos/logo_servico.png" alt="S" />
+          </a>
+        </div>
+      </header>
+
+      <main class="content-wrapper">
+        <p class="instrucao-texto" id="textoInstrucao">
+          Acabamos de enviar um código de verificação de 4 dígitos para o seu
+          endereço.
+        </p>
+
+        <div class="codigo-container">
+          <input type="text" maxlength="1" class="code-input" />
+          <input type="text" maxlength="1" class="code-input" />
+          <input type="text" maxlength="1" class="code-input" />
+          <input type="text" maxlength="1" class="code-input" />
+        </div>
+
+        <button type="button" class="btn-confirmar" onclick="confirmarCodigo()">
+          Confirmar
+        </button>
+        <button type="button" id="btnReenviar" class="btn-reenviar">
+          Reenviar código
+        </button>
+      </main>
+    </div>
+
+    <style>
+      /* Configurações Gerais */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+
+      body {
+        /* O degradê característico: Laranja -> Branco -> Laranja */
+        background: linear-gradient(
+          180deg,
+          #ff8a00 0%,
+          #ffffff 50%,
+          #ff8a00 100%
+        );
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        overflow-x: hidden;
+      }
+
+      .auth-container {
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+      }
+
+      /* Cabeçalho Laranja com Logo */
+      .header-laranja {
+        background-color: #ff8a00;
+        height: 110px;
+        display: flex;
+        align-items: center;
+        padding-left: 25px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 60px;
+      }
+
+      .logo-wrapper {
+        background: white;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #000;
+      }
+
+      .logo-icon {
+        width: 80%;
+        height: auto;
+      }
+
+      /* Conteúdo Central */
+      .content-wrapper {
+        padding: 0 30px;
+      }
+
+      .instrucao-texto {
+        font-size: 1.1rem;
+        color: #000;
+        line-height: 1.4;
+        margin-bottom: 40px;
+        font-weight: 500;
+      }
+
+      /* Containers dos Quadrados de Código */
+      .codigo-container {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 60px;
+      }
+
+      .code-input {
+        width: 55px;
+        height: 65px;
+        border: 1.5px solid #ff5c00;
+        border-radius: 8px;
+        background: #ffffff;
+        text-align: center;
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #000000; /* Texto digitado sempre preto */
+        outline: none;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+
+      .code-input:focus {
+        box-shadow: 0 0 8px rgba(255, 92, 0, 0.3);
+        transform: scale(1.05);
+      }
+
+      /* Botões Arredondados */
+      .btn-confirmar,
+      .btn-reenviar {
+        display: block;
+        width: fit-content;
+        margin: 0 auto;
+        background-color: #ffffff;
+        color: #000;
+        border: 1.5px solid #ff5c00;
+        padding: 12px 45px;
+        border-radius: 18px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-confirmar {
+        margin-bottom: 40px;
+      }
+
+      .btn-reenviar {
+        font-size: 1rem;
+        padding: 10px 30px;
+      }
+
+      .btn-confirmar:hover,
+      .btn-reenviar:hover {
+        background-color: #fff5ee;
+        transform: translateY(-2px);
+      }
+
+      .btn-confirmar:active,
+      .btn-reenviar:active {
+        transform: translateY(0);
+      }
+    </style>
+
+    <script>
+      // 1. Verifica se o usuário passou pela Tela 1
+      const emailSalvo = localStorage.getItem("emailRecuperacao");
+
+      if (!emailSalvo) {
+        // Se não tem e-mail salvo, é um intruso! Manda de volta.
+        alert("Sessão inválida. Por favor, digite seu e-mail novamente.");
+        window.location.href = "telaRecuperacaoSenha1.html";
+      } else {
+        // Se tem e-mail, mostra ele bonitinho na tela
+        document.getElementById("textoInstrucao").innerHTML =
+          `Acabamos de enviar um código de verificação de 4 dígitos para o endereço:<br><b>${emailSalvo}</b>`;
+      }
+
+      // 2. Lógica dos quadrados de código (Mantida do seu código original)
+      const inputs = document.querySelectorAll(".code-input");
+
+      inputs.forEach((input, index) => {
+        input.addEventListener("input", (e) => {
+          const value = e.target.value;
+          if (value.length === 1 && index < inputs.length - 1) {
+            inputs[index + 1].focus();
+          }
+          checarCodigoCompleto();
+        });
+
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Backspace" && !e.target.value && index > 0) {
+            inputs[index - 1].focus();
+          }
+        });
+      });
+
+      function checarCodigoCompleto() {
+        const codigo = Array.from(inputs)
+          .map((input) => input.value)
+          .join("");
+        if (codigo.length === 4) {
+          setTimeout(() => {
+            avancarParaNovaSenha();
+          }, 300);
+        }
+      }
+
+      function avancarParaNovaSenha() {
+        window.location.href = "telaRecuperacaoSenha3.html";
+      }
+
+      function confirmarCodigo() {
+        const codigo = Array.from(inputs)
+          .map((input) => input.value)
+          .join("");
+        if (codigo.length === 4) {
+          avancarParaNovaSenha();
+        } else {
+          alert("Por favor, digite os 4 dígitos.");
+        }
+      }
+
+      // 3. Reenvio
+      const btnReenviar = document.getElementById("btnReenviar");
+      btnReenviar.addEventListener("click", () => {
+        alert(`Um novo código de 4 dígitos foi enviado para: ${emailSalvo}`);
+        inputs.forEach((input) => (input.value = ""));
+        inputs[0].focus();
+      });
+    </script>
+  </body>
+</html>

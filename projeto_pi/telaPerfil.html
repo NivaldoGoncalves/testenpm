@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ServiçosJá - Perfil</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="perfil-container">
+      <header class="perfil-header">
+        <button class="btn-back" onclick="window.location.href = 'home.html'">
+          ‹
+        </button>
+        <h1>Meu Perfil</h1>
+      </header>
+
+      <div class="photo-section">
+        <div class="profile-pic-container">
+          <img
+            src="./fotos/foto_perfil.png"
+            alt="Foto de Perfil"
+            id="imgPerfil"
+          />
+          <div
+            id="letraPerfil"
+            class="avatar-letra-perfil"
+            style="display: none"
+          ></div>
+
+          <button class="btn-camera-overlay" id="btnMudarFoto" type="button">
+            <span>📷</span>
+          </button>
+          <input
+            type="file"
+            id="inputFotoPerfil"
+            accept="image/*"
+            style="display: none"
+          />
+        </div>
+      </div>
+
+      <form class="perfil-form" id="formPerfil">
+        <div class="form-group">
+          <label>Nome Completo</label>
+          <div class="input-wrapper">
+            <input type="text" id="nomePerfil" placeholder="Seu nome" />
+            <span class="edit-icon">✎</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Como quer ser chamado (Apelido)</label>
+          <div class="input-wrapper">
+            <input type="text" id="apelidoPerfil" placeholder="Seu apelido" />
+            <span class="edit-icon">✎</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label>Nascimento</label>
+            <div class="input-wrapper">
+              <input type="date" id="dataNascPerfil" />
+            </div>
+          </div>
+          <div class="form-group flex-1">
+            <label>Gênero</label>
+            <div class="input-wrapper">
+              <select id="genero" name="genero">
+                <option value="" disabled selected>Selecionar</option>
+                <option value="masculino">Masculino</option>
+                <option value="feminino">Feminino</option>
+                <option value="naoDeclarar">Não declarar</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Sua Profissão Principal</label>
+          <div class="input-wrapper select-wrapper">
+            <select id="profissoes">
+              <option value="" disabled selected>O que você faz?</option>
+              <option value="alfaiate">Alfaiate</option>
+              <option value="bombeiroHidraulico">Bombeiro Hidráulico</option>
+              <option value="eletricista">Eletricista</option>
+              <option value="jardineiro">Jardineiro</option>
+              <option value="pedreiro">Pedreiro</option>
+              <option value="pintor">Pintor</option>
+              <option value="tecnicoInformatica">Técnico em Informática</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="optional-section">
+          <span class="section-title">Informações Opcionais</span>
+          <div class="form-group">
+            <div class="input-wrapper">
+              <input
+                type="text"
+                id="cnhPerfil"
+                placeholder="Número da CNH (Se possuir)"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-footer">
+          <div
+            class="rating-card"
+            onclick="window.location.href = 'telaAvaliacao.html'"
+          >
+            <span class="stars">⭐ 4.1</span>
+            <span class="label">Média de Avaliação</span>
+          </div>
+          <p class="services-count">💼 +30 serviços realizados</p>
+        </div>
+
+        <button type="submit" id="btnSalvarPerfil" class="btn-save-main">
+          Salvar Alterações
+        </button>
+      </form>
+    </div>
+
+    <style>
+      :root {
+        --laranja: #ff8a00;
+        --azul-escuro: #002d5e;
+        --branco: #ffffff;
+        --cinza-claro: #f4f7f9;
+        --texto-suave: #666;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      body {
+        background-color: var(--cinza-claro);
+      }
+
+      .perfil-container {
+        background: linear-gradient(
+          180deg,
+          var(--laranja) 0%,
+          var(--cinza-claro) 25%
+        );
+        min-height: 100vh;
+        padding-bottom: 40px;
+      }
+
+      /* HEADER */
+      .perfil-header {
+        display: flex;
+        align-items: center;
+        padding: 40px 20px 20px;
+        color: var(--azul-escuro);
+      }
+
+      .btn-back {
+        background: var(--branco);
+        border: none;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .perfil-header h1 {
+        flex: 1;
+        text-align: center;
+        margin-right: 45px; /* Compensa o botão de voltar para centralizar */
+        font-size: 1.3rem;
+        font-weight: 700;
+      }
+
+      /* FOTO */
+      .photo-section {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0 30px;
+      }
+
+      .profile-pic-container {
+        position: relative;
+        width: 140px;
+        height: 140px;
+        background: white;
+        border-radius: 50%;
+        padding: 5px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .profile-pic-container img,
+      .avatar-letra-perfil {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .avatar-letra-perfil {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: var(--azul-escuro);
+        color: white;
+        font-size: 3.5rem;
+        font-weight: bold;
+      }
+
+      .btn-camera-overlay {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        background: var(--laranja);
+        border: 3px solid white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      /* FORMULÁRIO */
+      .perfil-form {
+        padding: 0 25px;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      .form-group {
+        margin-bottom: 18px;
+      }
+      .form-group label {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--texto-suave);
+        margin-bottom: 6px;
+        margin-left: 5px;
+      }
+
+      .input-wrapper {
+        position: relative;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+        border: 1px solid #e0e0e0;
+        transition: 0.3s;
+      }
+
+      .input-wrapper:focus-within {
+        border-color: var(--laranja);
+        box-shadow: 0 0 0 3px rgba(255, 138, 0, 0.1);
+      }
+
+      .input-wrapper input,
+      .input-wrapper select {
+        width: 100%;
+        padding: 14px 15px;
+        border: none;
+        background: transparent;
+        outline: none;
+        font-size: 1rem;
+        color: var(--azul-escuro);
+      }
+
+      .edit-icon {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #ccc;
+        font-size: 1rem;
+      }
+
+      .form-row {
+        display: flex;
+        gap: 15px;
+      }
+      .flex-1 {
+        flex: 1;
+      }
+
+      /* DIVISOR */
+      .optional-section {
+        margin-top: 30px;
+        border-top: 1px dashed #ccc;
+        padding-top: 20px;
+      }
+
+      .section-title {
+        display: block;
+        text-align: center;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #999;
+        margin-bottom: 15px;
+      }
+
+      /* FOOTER & BOTÃO */
+      .stats-footer {
+        text-align: center;
+        margin: 30px 0;
+      }
+
+      .rating-card {
+        background: #fff8f0;
+        border: 1px solid #ffe0bd;
+        display: inline-flex;
+        flex-direction: column;
+        padding: 10px 25px;
+        border-radius: 15px;
+        margin-bottom: 10px;
+      }
+
+      .rating-card .stars {
+        font-weight: 700;
+        color: var(--laranja);
+        font-size: 1.1rem;
+      }
+      .rating-card .label {
+        font-size: 0.7rem;
+        color: var(--texto-suave);
+      }
+
+      .services-count {
+        font-size: 0.85rem;
+        color: var(--texto-suave);
+      }
+
+      .btn-save-main {
+        width: 100%;
+        background: var(--azul-escuro);
+        color: white;
+        padding: 16px;
+        border: none;
+        border-radius: 14px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 6px 20px rgba(0, 45, 94, 0.2);
+        transition: 0.3s;
+      }
+
+      .btn-save-main:active {
+        transform: scale(0.98);
+      }
+    </style>
+
+    <script>
+      let novaFotoBase64 = null;
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        const idSalvo = localStorage.getItem("usuarioId");
+        const nomeSalvo = localStorage.getItem("usuarioNome");
+
+        if (!idSalvo) {
+          alert("Sessão expirada. Por favor, faça login novamente.");
+          window.location.href = "telaLogin.html";
+          return;
+        }
+
+        try {
+          const resposta = await fetch(
+            `https://testenpm.vercel.app/perfil/${idSalvo}`,
+          );
+          const dados = await resposta.json();
+
+          if (resposta.ok) {
+            document.getElementById("nomePerfil").value =
+              dados.nome_usuario || "";
+            document.getElementById("apelidoPerfil").value =
+              dados.apelido_usuario || "";
+            document.getElementById("cnhPerfil").value =
+              dados.cnh_usuario || "";
+
+            if (dados.foto_perfil) {
+              document.getElementById("imgPerfil").src = dados.foto_perfil;
+            } else if (nomeSalvo) {
+              const primeiraLetra = nomeSalvo.charAt(0).toUpperCase();
+              const lP = document.getElementById("letraPerfil");
+              lP.textContent = primeiraLetra;
+              lP.style.display = "flex";
+              document.getElementById("imgPerfil").style.display = "none";
+            }
+
+            if (dados.genero_usuario)
+              document.getElementById("genero").value = dados.genero_usuario;
+            if (dados.profissoes_usuario)
+              document.getElementById("profissoes").value =
+                dados.profissoes_usuario;
+
+            if (dados.dat_nasc_usuario) {
+              const dataFormatada = new Date(dados.dat_nasc_usuario)
+                .toISOString()
+                .split("T")[0];
+              document.getElementById("dataNascPerfil").value = dataFormatada;
+            }
+          }
+        } catch (erro) {
+          console.error("Erro ao carregar perfil:", erro);
+        }
+      });
+
+      // LOGICA DE TROCA DE FOTO
+      document
+        .getElementById("btnMudarFoto")
+        .addEventListener("click", () =>
+          document.getElementById("inputFotoPerfil").click(),
+        );
+
+      document
+        .getElementById("inputFotoPerfil")
+        .addEventListener("change", function (e) {
+          const arquivo = e.target.files[0];
+          if (arquivo) {
+            const leitor = new FileReader();
+            leitor.onload = function (event) {
+              document.getElementById("imgPerfil").src = event.target.result;
+              document.getElementById("imgPerfil").style.display = "block";
+              document.getElementById("letraPerfil").style.display = "none";
+              novaFotoBase64 = event.target.result;
+            };
+            leitor.readAsDataURL(arquivo);
+          }
+        });
+
+      // SALVAR ALTERAÇÕES
+      document
+        .getElementById("formPerfil")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const idUsuario = localStorage.getItem("usuarioId");
+
+          const dadosPerfil = {
+            id: idUsuario,
+            nome: document.getElementById("nomePerfil").value,
+            apelido: document.getElementById("apelidoPerfil").value,
+            dataNascimento: document.getElementById("dataNascPerfil").value,
+            genero: document.getElementById("genero").value,
+            profissao: document.getElementById("profissoes").value,
+            cnh: document.getElementById("cnhPerfil").value,
+            foto: novaFotoBase64,
+          };
+
+          try {
+            const resposta = await fetch(
+              "https://testenpm.vercel.app/atualizar-perfil",
+              {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dadosPerfil),
+              },
+            );
+
+            if (resposta.ok) {
+              alert("Perfil atualizado com sucesso!");
+              localStorage.setItem("usuarioNome", dadosPerfil.nome);
+            } else {
+              const res = await resposta.json();
+              alert("Erro ao salvar: " + res.erro);
+            }
+          } catch (erro) {
+            alert("Erro ao conectar com o servidor.");
+          }
+        });
+    </script>
+  </body>
+</html>

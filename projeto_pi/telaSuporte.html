@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ServiçosJá - Suporte</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="app-container chat-bg">
+      <header class="header-suporte">
+        <button
+          class="btn-back-chat"
+          onclick="window.location.href = 'home.html'"
+        >
+          ‹
+        </button>
+        <div class="logo-suporte">Serviços<span>Já</span></div>
+        <div class="status-atendimento"><span class="dot"></span> Online</div>
+      </header>
+
+      <main class="chat-content" id="chatWindow">
+        <div class="msg-bot">
+          <div class="balao-atendimento">
+            <p><strong>Assistente ServiçosJá</strong></p>
+            <p>Olá! Como posso ajudar você hoje?</p>
+            <p>Escolha uma das opções abaixo ou digite sua dúvida:</p>
+
+            <div class="opcoes-suporte">
+              <button onclick="escolherOpcao('Informações sobre serviços')">
+                1. Ver serviços
+              </button>
+              <button onclick="escolherOpcao('Formas de pagamento')">
+                2. Pagamentos
+              </button>
+              <button onclick="escolherOpcao('Suporte / Problemas')">
+                3. Problemas
+              </button>
+              <button onclick="escolherOpcao('Falar com atendente')">
+                4. Humano
+              </button>
+            </div>
+          </div>
+          <span class="timestamp">14:05</span>
+        </div>
+      </main>
+
+      <footer class="footer-chat">
+        <div class="input-chat-container">
+          <input
+            type="text"
+            placeholder="Escreva sua mensagem..."
+            id="inputMensagem"
+          />
+          <button class="btn-enviar-chat" onclick="enviarMensagem()">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+      </footer>
+    </div>
+
+    <style>
+      :root {
+        --laranja: #ff8a00;
+        --azul-escuro: #002d5e;
+        --branco: #ffffff;
+        --cinza-chat: #f0f2f5;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      body,
+      html {
+        height: 100%;
+      }
+
+      .chat-bg {
+        background: var(--cinza-chat);
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* HEADER */
+      .header-suporte {
+        background: linear-gradient(135deg, var(--laranja) 0%, #ff5c00 100%);
+        padding: 45px 20px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+      }
+
+      .btn-back-chat {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        color: white;
+        font-size: 1.8rem;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .logo-suporte {
+        font-weight: 800;
+        font-size: 1.2rem;
+        text-transform: uppercase;
+      }
+      .logo-suporte span {
+        color: var(--azul-escuro);
+      }
+
+      .status-atendimento {
+        font-size: 0.75rem;
+        font-weight: 600;
+        background: rgba(0, 0, 0, 0.1);
+        padding: 5px 12px;
+        border-radius: 20px;
+      }
+      .dot {
+        height: 8px;
+        width: 8px;
+        background-color: #28a745;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 5px;
+      }
+
+      /* CHAT WINDOW */
+      .chat-content {
+        padding: 20px;
+        flex-grow: 1;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .msg-bot {
+        align-self: flex-start;
+        max-width: 85%;
+      }
+      .msg-user {
+        align-self: flex-end;
+        max-width: 85%;
+      }
+
+      .balao-atendimento {
+        background: white;
+        padding: 15px;
+        border-radius: 20px 20px 20px 5px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        color: #333;
+        font-size: 0.9rem;
+        line-height: 1.5;
+      }
+
+      .msg-user .balao-atendimento {
+        background: var(--azul-escuro);
+        color: white;
+        border-radius: 20px 20px 5px 20px;
+      }
+
+      .timestamp {
+        font-size: 0.65rem;
+        color: #999;
+        margin-top: 5px;
+        display: block;
+      }
+
+      /* OPÇÕES */
+      .opcoes-suporte {
+        margin-top: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .opcoes-suporte button {
+        background: #fff3e0;
+        border: 1px solid var(--laranja);
+        color: var(--laranja);
+        padding: 10px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 0.8rem;
+        text-align: left;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .opcoes-suporte button:hover {
+        background: var(--laranja);
+        color: white;
+      }
+
+      /* INPUT AREA */
+      .footer-chat {
+        padding: 20px;
+        background: white;
+        border-radius: 30px 30px 0 0;
+        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .input-chat-container {
+        display: flex;
+        align-items: center;
+        background: #f0f2f5;
+        border-radius: 25px;
+        padding: 5px 5px 5px 20px;
+      }
+
+      .input-chat-container input {
+        flex-grow: 1;
+        border: none;
+        background: transparent;
+        padding: 10px 0;
+        outline: none;
+        font-size: 0.95rem;
+      }
+
+      .btn-enviar-chat {
+        background: var(--laranja);
+        border: none;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: 0.3s;
+      }
+      .btn-enviar-chat:hover {
+        transform: scale(1.05);
+        background: #ff5c00;
+      }
+      .btn-enviar-chat svg {
+        width: 20px;
+        height: 20px;
+      }
+    </style>
+
+    <script>
+      function enviarMensagem() {
+        const input = document.getElementById("inputMensagem");
+        const chatWindow = document.getElementById("chatWindow");
+
+        if (input.value.trim() !== "") {
+          // Criar balão do usuário
+          const msgDiv = document.createElement("div");
+          msgDiv.className = "msg-user";
+          msgDiv.innerHTML = `
+                    <div class="balao-atendimento">
+                        <p>${input.value}</p>
+                    </div>
+                    <span class="timestamp" style="text-align:right">Agora</span>
+                `;
+          chatWindow.appendChild(msgDiv);
+
+          // Simular resposta automática
+          setTimeout(() => {
+            responderBot();
+          }, 1000);
+
+          input.value = "";
+          chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+      }
+
+      function escolherOpcao(texto) {
+        document.getElementById("inputMensagem").value = texto;
+        enviarMensagem();
+      }
+
+      function responderBot() {
+        const chatWindow = document.getElementById("chatWindow");
+        const msgDiv = document.createElement("div");
+        msgDiv.className = "msg-bot";
+        msgDiv.innerHTML = `
+                <div class="balao-atendimento">
+                    <p>Entendi! Um de nossos consultores foi notificado e entrará em contato em breve. 😊</p>
+                </div>
+                <span class="timestamp">Agora</span>
+            `;
+        chatWindow.appendChild(msgDiv);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+      }
+
+      document
+        .getElementById("inputMensagem")
+        .addEventListener("keypress", (e) => {
+          if (e.key === "Enter") enviarMensagem();
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ServiçosJá - Profissionais</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-container background-listagem">
+      <header class="header-listagem">
+        <button
+          class="btn-fechar-top"
+          onclick="window.location.href = 'telaSolicitacao.html'"
+        >
+          ×
+        </button>
+        <h1>Profissionais:</h1>
+      </header>
+
+      <main class="lista-profissionais">
+        <div class="foto-central-wrapper">
+          <img
+            src="./fotos/foto_perfil.png"
+            alt="Foto do Profissional"
+            class="foto-perfil-grande"
+            id="fotoProfissional"
+          />
+        </div>
+
+        <div class="badges-topo">
+          <div class="badge-item">R$ 290</div>
+          <div class="badge-item badge-estrela">⭐ 4.6</div>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-box nome-full" id="nomeProfissional">
+            Carregando...
+          </div>
+          <div class="info-box" id="generoProfissional">Carregando...</div>
+          <div class="info-box" id="idadeProfissional">Carregando...</div>
+          <div class="info-box" id="profissaoProfissional">Carregando...</div>
+        </div>
+      </main>
+
+      <footer class="footer-gradient-bottom"></footer>
+    </div>
+
+    <style>
+      /* Fundo com degradê laranja nas extremidades */
+      .background-listagem {
+        background: linear-gradient(
+          180deg,
+          #ff8a00 0%,
+          #ffffff 15%,
+          #ffffff 85%,
+          #ff8a00 100%
+        );
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .header-listagem {
+        padding: 20px;
+        text-align: center;
+        position: relative;
+      }
+
+      .header-listagem h1 {
+        font-size: 1.8rem;
+        color: #000;
+      }
+
+      .btn-fechar-top {
+        position: absolute;
+        left: 15px;
+        top: 15px;
+        background: none;
+        border: 2px solid #000;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      /* Container de scroll */
+      .lista-profissionais {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        margin-right: 5px; /* Espaço para a barra de scroll */
+      }
+
+      /* Personalização da barra de scroll lateral */
+      .lista-profissionais::-webkit-scrollbar {
+        width: 8px;
+      }
+      .lista-profissionais::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+      }
+
+      /* Card Laranja */
+      .card-profissional {
+        background-color: #ff8a00;
+        border-radius: 20px;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .foto-perfil {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #fff;
+      }
+
+      .info-corpo {
+        flex: 1;
+      }
+
+      .linha-topo {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+      }
+
+      .nome {
+        font-weight: bold;
+        font-size: 1rem;
+        color: #000;
+      }
+
+      /* Botão Verificar Branco */
+      .btn-verificar {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 5px 12px;
+        font-size: 0.8rem;
+        cursor: pointer;
+      }
+
+      .linha-detalhes {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 5px;
+      }
+
+      /* Badge de Preço Branca */
+      .preco-badge {
+        background-color: #fff;
+        padding: 2px 15px;
+        border-radius: 15px;
+        font-size: 0.9rem;
+        font-weight: bold;
+        color: #555;
+      }
+
+      .linha-avaliacao {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .estrelas {
+        color: #ffd700; /* Dourado */
+        font-size: 1.1rem;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+      }
+
+      .nota {
+        font-size: 0.9rem;
+        font-weight: bold;
+      }
+    </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        // TRUQUE DE TESTE: Pegando o ID do usuário logado só para ver a tela preencher sozinha
+        const idParaTestar = localStorage.getItem("usuarioId");
+
+        if (!idParaTestar) {
+          alert("Erro: Nenhum ID encontrado para testar.");
+          return;
+        }
+
+        try {
+          // Reaproveitamos aquela mesma rota perfeita que criamos pro Perfil!
+          const resposta = await fetch(
+            `https://testenpm.vercel.app/perfil/${idParaTestar}`,
+          );
+          const dados = await resposta.json();
+
+          if (resposta.ok) {
+            // 1. Preenche Nome, Gênero e Profissão
+            document.getElementById("nomeProfissional").textContent =
+              dados.nome_usuario || "Nome não informado";
+            document.getElementById("generoProfissional").textContent =
+              dados.genero_usuario || "Não Declarado";
+            document.getElementById("profissaoProfissional").textContent =
+              dados.profissoes_usuario || "Profissional";
+
+            // 2. Preenche a Foto
+            if (dados.foto_perfil) {
+              document.getElementById("fotoProfissional").src =
+                dados.foto_perfil;
+            }
+
+            // 3. Calcula a Idade usando a Data de Nascimento do banco
+            if (dados.dat_nasc_usuario) {
+              const dataNasc = new Date(dados.dat_nasc_usuario);
+              const hoje = new Date();
+              let idade = hoje.getFullYear() - dataNasc.getFullYear();
+              const mes = hoje.getMonth() - dataNasc.getMonth();
+
+              // Ajusta a idade se a pessoa ainda não fez aniversário no ano atual
+              if (
+                mes < 0 ||
+                (mes === 0 && hoje.getDate() < dataNasc.getDate())
+              ) {
+                idade--;
+              }
+              document.getElementById("idadeProfissional").textContent =
+                `${idade} anos`;
+            } else {
+              document.getElementById("idadeProfissional").textContent =
+                "Idade Oculta";
+            }
+          }
+        } catch (erro) {
+          console.error("Erro ao carregar profissional:", erro);
+        }
+      });
+    </script>
+  </body>
+</html>

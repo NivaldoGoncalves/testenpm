@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ServiçosJá - Histórico</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="historico-container">
+      <header class="historico-header">
+        <button class="btn-back" onclick="window.location.href = 'home.html'">
+          ‹
+        </button>
+        <h1>Meu Histórico</h1>
+      </header>
+
+      <div class="tabs-container">
+        <button class="tab-btn active" onclick="mudarAba('contratados', this)">
+          Pedidos Feitos
+        </button>
+        <button
+          class="tab-btn"
+          id="tabRealizados"
+          onclick="mudarAba('realizados', this)"
+          style="display: none"
+        >
+          Serviços Realizados
+        </button>
+      </div>
+
+      <main class="historico-content">
+        <div id="listaHistorico" class="historico-list">
+          <p class="loading-msg">Buscando seu histórico...</p>
+        </div>
+      </main>
+    </div>
+
+    <style>
+      :root {
+        --laranja: #ff8a00;
+        --azul-escuro: #002d5e;
+        --branco: #ffffff;
+        --cinza-fundo: #f4f7f9;
+        --verde: #28a745;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      body {
+        background-color: var(--cinza-fundo);
+      }
+
+      .historico-container {
+        background: linear-gradient(
+          180deg,
+          var(--laranja) 0%,
+          var(--cinza-fundo) 15%
+        );
+        min-height: 100vh;
+        padding-bottom: 30px;
+      }
+
+      /* HEADER */
+      .historico-header {
+        display: flex;
+        align-items: center;
+        padding: 40px 20px 20px;
+        color: var(--azul-escuro);
+      }
+
+      .btn-back {
+        background: var(--branco);
+        border: none;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .historico-header h1 {
+        flex: 1;
+        text-align: center;
+        margin-right: 45px;
+        font-size: 1.3rem;
+        font-weight: 700;
+      }
+
+      /* TABS */
+      .tabs-container {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 10px 20px 25px;
+      }
+
+      .tab-btn {
+        background: #e0e0e0;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: #666;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .tab-btn.active {
+        background: var(--azul-escuro);
+        color: white;
+        box-shadow: 0 4px 12px rgba(0, 45, 94, 0.2);
+      }
+
+      /* CARDS DINÂMICOS */
+      .historico-content {
+        padding: 0 20px;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      .historico-card {
+        background: white;
+        border-radius: 18px;
+        padding: 18px;
+        margin-bottom: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        border-left: 6px solid var(--laranja);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .historico-card.aceito {
+        border-left-color: var(--verde);
+      }
+
+      .card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .card-top strong {
+        color: var(--azul-escuro);
+        font-size: 1rem;
+      }
+      .card-top span {
+        font-size: 0.75rem;
+        color: #999;
+      }
+
+      .card-info {
+        font-size: 0.85rem;
+        color: #666;
+        line-height: 1.4;
+      }
+
+      .card-footer {
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 10px;
+        border-top: 1px solid #f0f0f0;
+      }
+
+      .status-tag {
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 10px;
+        text-transform: uppercase;
+      }
+
+      .tag-pendente {
+        background: #fff3e0;
+        color: #ef6c00;
+      }
+      .tag-aceito {
+        background: #e8f5e9;
+        color: #2e7d32;
+      }
+
+      .loading-msg {
+        text-align: center;
+        color: #999;
+        margin-top: 40px;
+        font-style: italic;
+      }
+    </style>
+
+    <script>
+      const idUsuario = localStorage.getItem("usuarioId");
+
+      // 1. Verifica se o usuário é um profissional para mostrar a segunda aba
+      async function verificarPerfil() {
+        try {
+          const r = await fetch(
+            `https://testenpm.vercel.app/perfil/${idUsuario}`,
+          );
+          const dados = await r.json();
+          if (
+            dados.profissoes_usuario &&
+            dados.profissoes_usuario !== "Profissional"
+          ) {
+            document.getElementById("tabRealizados").style.display = "block";
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      // 2. Função para carregar os dados reais do banco
+      async function carregarHistorico(tipo = "contratados") {
+        const lista = document.getElementById("listaHistorico");
+        lista.innerHTML = '<p class="loading-msg">Buscando registros...</p>';
+
+        try {
+          // Usamos a rota que já criamos no server.js
+          const url =
+            tipo === "contratados"
+              ? `https://testenpm.vercel.app/pedidos-cliente/${idUsuario}`
+              : `https://testenpm.vercel.app/pedidos/${idUsuario}`; // Para profissionais
+
+          const resposta = await fetch(url);
+          const dados = await resposta.json();
+
+          if (dados.length === 0) {
+            lista.innerHTML =
+              '<p class="loading-msg">Nenhum registro encontrado.</p>';
+            return;
+          }
+
+          lista.innerHTML = "";
+          dados.forEach((item) => {
+            const dataFormatada = new Date(
+              item.data_servico,
+            ).toLocaleDateString("pt-BR");
+            const isAceito = item.status_pedido === "Aceito";
+
+            const card = document.createElement("div");
+            card.className = `historico-card ${isAceito ? "aceito" : ""}`;
+
+            card.innerHTML = `
+                        <div class="card-top">
+                            <strong>${item.tipo_servico}</strong>
+                            <span>${dataFormatada}</span>
+                        </div>
+                        <div class="card-info">
+                            <p>📍 ${item.endereco_servico}</p>
+                            <p>👤 ${tipo === "contratados" ? "Profissional: " + (item.nome_profissional || "Pendente") : "Cliente: " + item.nome_cliente}</p>
+                        </div>
+                        <div class="card-footer">
+                            <span class="status-tag ${isAceito ? "tag-aceito" : "tag-pendente"}">
+                                ${item.status_pedido}
+                            </span>
+                            <small style="color: #bbb">ID: #${item.id_solicitacao}</small>
+                        </div>
+                    `;
+            lista.appendChild(card);
+          });
+        } catch (erro) {
+          lista.innerHTML =
+            '<p class="loading-msg">Erro ao carregar dados.</p>';
+        }
+      }
+
+      function mudarAba(tipo, btn) {
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        carregarHistorico(tipo);
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        verificarPerfil();
+        carregarHistorico();
+      });
+    </script>
+  </body>
+</html>

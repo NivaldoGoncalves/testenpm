@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ServiçosJá - Recuperar Senha</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="auth-container">
+      <header class="header-laranja">
+        <div class="logo-wrapper">
+          <a href="telaLogin.html">
+            <img src="./fotos/logo_servico.png" alt="S" />
+          </a>
+        </div>
+      </header>
+
+      <main class="content-wrapper">
+        <p class="instrucao-texto">Insira o e-mail cadastrado:</p>
+
+        <form class="auth-form" id="formRecuperar">
+          <div class="input-box">
+            <input
+              type="email"
+              id="emailRecuperacao"
+              placeholder="E-mail:"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn-proximo">Próximo</button>
+        </form>
+      </main>
+    </div>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: sans-serif;
+      }
+
+      body {
+        /* Degradê triplo conforme as imagens */
+        background: linear-gradient(
+          180deg,
+          #ff8a00 0%,
+          #ffffff 50%,
+          #ff8a00 100%
+        );
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+      }
+
+      .auth-container {
+        width: 100%;
+        max-width: 400px;
+      }
+
+      /* Cabeçalho Laranja */
+      .header-laranja {
+        background-color: #ff8a00;
+        height: 110px;
+        display: flex;
+        align-items: center;
+        padding-left: 25px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      .logo-wrapper {
+        background: white;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #000;
+      }
+
+      .content-wrapper {
+        padding: 60px 20px;
+        text-align: center;
+      }
+
+      .instrucao-texto {
+        font-size: 1.2rem;
+        color: #333;
+        margin-bottom: 40px;
+        font-weight: 500;
+      }
+
+      /* Input com texto preto */
+      .input-box input {
+        width: 100%;
+        padding: 16px 20px;
+        border-radius: 18px;
+        border: 1.5px solid #ff5c00;
+        background: rgba(255, 255, 255, 0.9);
+        font-size: 1rem;
+        color: #000000; /* Texto digitado pelo usuário */
+        outline: none;
+      }
+
+      /* Botão Próximo */
+      .btn-proximo {
+        margin-top: 100px;
+        background-color: #ffffff;
+        color: #333;
+        border: 1.5px solid #ff5c00;
+        padding: 12px 50px;
+        border-radius: 15px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        cursor: pointer;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .btn-proximo:hover {
+        background-color: #fff5f0;
+      }
+    </style>
+
+    <script>
+      document
+        .getElementById("formRecuperar")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const emailDigitado =
+            document.getElementById("emailRecuperacao").value;
+
+          if (!emailDigitado) return;
+
+          try {
+            // Envia o e-mail para o servidor verificar
+            const resposta = await fetch(
+              "https://testenpm.vercel.app/verificar-email",
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: emailDigitado }),
+              },
+            );
+
+            const resultado = await resposta.json();
+
+            if (resposta.ok) {
+              // Se o e-mail existir, salvamos ele na memória do navegador para usar na Tela 3!
+              localStorage.setItem("emailRecuperacao", emailDigitado);
+
+              alert(
+                `Tudo certo! Um e-mail de recuperação foi simulado para: ${emailDigitado}`,
+              );
+              window.location.href = "telaRecuperacaoSenha2.html";
+            } else {
+              // Se o e-mail não existir no banco de dados
+              alert(resultado.erro);
+            }
+          } catch (erro) {
+            console.error("Erro na requisição:", erro);
+            alert(
+              "Erro ao conectar com o servidor. Verifique se ele está rodando!",
+            );
+          }
+        });
+    </script>
+  </body>
+</html>

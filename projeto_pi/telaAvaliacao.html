@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Avaliar Serviço</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Montserrat", sans-serif;
+      }
+      body {
+        background: #f0f2f5;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .card-avaliacao {
+        background: white;
+        width: 100%;
+        max-width: 400px;
+        border-radius: 20px;
+        padding: 30px 20px;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        color: #002d5e;
+        margin-bottom: 10px;
+      }
+      p {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+      }
+
+      .estrelas {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-direction: row-reverse;
+      }
+      .estrelas input {
+        display: none;
+      }
+      .estrelas label {
+        font-size: 3rem;
+        color: #ddd;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .estrelas input:checked ~ label,
+      .estrelas label:hover,
+      .estrelas label:hover ~ label {
+        color: #ff8a00;
+      }
+
+      textarea {
+        width: 100%;
+        height: 100px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        padding: 10px;
+        resize: none;
+        margin-bottom: 20px;
+        outline: none;
+      }
+      .btn-enviar {
+        background: #002d5e;
+        color: white;
+        border: none;
+        padding: 15px;
+        width: 100%;
+        border-radius: 30px;
+        font-weight: bold;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card-avaliacao">
+      <h2>Serviço Concluído!</h2>
+      <p>Como foi o atendimento do profissional? Deixe sua nota abaixo.</p>
+
+      <div class="estrelas">
+        <input type="radio" id="e5" name="nota" value="5" /><label for="e5"
+          >★</label
+        >
+        <input type="radio" id="e4" name="nota" value="4" /><label for="e4"
+          >★</label
+        >
+        <input type="radio" id="e3" name="nota" value="3" /><label for="e3"
+          >★</label
+        >
+        <input type="radio" id="e2" name="nota" value="2" /><label for="e2"
+          >★</label
+        >
+        <input type="radio" id="e1" name="nota" value="1" /><label for="e1"
+          >★</label
+        >
+      </div>
+
+      <textarea
+        id="comentario"
+        placeholder="Deixe um comentário opcional..."
+      ></textarea>
+      <button class="btn-enviar" onclick="enviarAvaliacao()">
+        Enviar Avaliação
+      </button>
+    </div>
+
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const idSolicitacao = urlParams.get("id");
+
+      async function enviarAvaliacao() {
+        // Descobre qual estrela foi marcada
+        const notaSelecionada = document.querySelector(
+          'input[name="nota"]:checked',
+        );
+
+        if (!notaSelecionada) {
+          alert("Por favor, selecione pelo menos uma estrela!");
+          return;
+        }
+
+        const dados = {
+          idSolicitacao: idSolicitacao,
+          nota: notaSelecionada.value,
+          comentario: document.getElementById("comentario").value,
+        };
+
+        try {
+          const r = await fetch(`https://testenpm.vercel.app/avaliar`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dados),
+          });
+
+          if (r.ok) {
+            alert("Obrigado pela sua avaliação!");
+            window.location.href = "home.html"; // Volta pra home
+          }
+        } catch (e) {
+          alert("Erro ao enviar avaliação.");
+        }
+      }
+    </script>
+  </body>
+</html>

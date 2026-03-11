@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ServiçosJá - Login</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+  </head>
+  <body class="corpoLogin">
+    <div class="login-container">
+      <header class="logo-section">
+        <div class="logo-icon">
+          <img
+            src="./fotos/fotoServicoJa.png"
+            id="fotoServicosJa"
+            alt="Foto Servico Já"
+          />
+        </div>
+        <h1>Serviços<span>Já</span></h1>
+        <h2>Login</h2>
+      </header>
+
+      <form class="login-form" id="formLogin">
+        <div class="input-group">
+          <input
+            type="email"
+            id="email"
+            placeholder="E-mail: t0123steste@gmail.com"
+            required
+          />
+        </div>
+
+        <div class="input-group password-wrapper">
+          <input
+            type="password"
+            id="password"
+            placeholder="Senha: *************"
+            required
+          />
+          <i class="far fa-eye-slash" id="togglePassword"></i>
+        </div>
+
+        <p
+          id="erroLogin"
+          style="
+            color: #cc0000;
+            font-size: 0.8rem;
+            display: none;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+          "
+        >
+          E-mail ou senha incorretos.
+        </p>
+
+        <a href="telaRecuperacaoSenha1.html" class="forgot-password"
+          >Esqueceu sua senha?</a
+        >
+
+        <button type="submit" class="btn-primary">Entrar</button>
+
+        <p class="signup-text">
+          Não tem uma conta? <a href="telaCadastro.html">Criar</a>
+        </p>
+
+        <div class="divider">
+          <span>ou</span>
+        </div>
+
+        <div
+          id="buttonDiv"
+          style="margin-top: 20px; display: flex; justify-content: center"
+        >
+          <button type="button" class="btn-google">
+            <img src="./fotos/googlePng.png" alt="Google Logo" />
+            Entrar com google
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <style>
+      * /* Estilização de todos os documentos HTML */ {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      .corpoLogin {
+        background: linear-gradient(
+          to bottom,
+          #ff8c00 0%,
+          #ffffff 50%,
+          #ff8c00 100%
+        );
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .login-container {
+        width: 100%;
+        max-width: 380px;
+        padding: 20px;
+        text-align: center;
+      }
+
+      #fotoServicosJa {
+        background-color: transparent;
+        width: 150px;
+        height: auto;
+        margin-bottom: 25px;
+      }
+
+      .logo-section h1 {
+        color: #003366;
+        font-size: 2.5rem;
+        margin-bottom: 5px;
+      }
+
+      .logo-section h1 span {
+        color: #cc0000;
+      }
+
+      .logo-section h2 {
+        color: #0066cc;
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+      }
+
+      /* Estilização dos Inputs */
+      .input-group {
+        margin-bottom: 15px;
+        position: relative;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ff4500;
+        border-radius: 15px;
+        background-color: #f0f0f0;
+        outline: none;
+      }
+
+      .password-wrapper {
+        display: flex;
+        align-items: center;
+      }
+
+      .password-wrapper i {
+        position: absolute;
+        right: 15px;
+        cursor: pointer;
+        color: #666;
+      }
+
+      .forgot-password {
+        display: block;
+        text-align: right;
+        font-size: 0.8rem;
+        color: #333;
+        text-decoration: none;
+        margin-bottom: 20px;
+      }
+
+      /* Botões */
+      .btn-primary {
+        width: 80%;
+        padding: 12px;
+        border: 1px solid #ff4500;
+        border-radius: 10px;
+        background-color: #eee;
+        color: #333;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .btn-primary:hover {
+        background-color: #ddd;
+      }
+
+      .signup-text {
+        margin-top: 15px;
+        font-size: 0.9rem;
+      }
+
+      .signup-text a {
+        color: red;
+        font-weight: bold;
+        text-decoration: none;
+      }
+
+      /* Divisor */
+      .divider {
+        display: flex;
+        align-items: center;
+        margin: 20px 0;
+      }
+
+      .divider::before,
+      .divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #000;
+      }
+
+      .divider span {
+        padding: 0 10px;
+        font-size: 0.8rem;
+      }
+
+      /* Botão Google */
+      .btn-google {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ff4500;
+        border-radius: 15px;
+        background-color: rgba(255, 255, 255, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.1rem;
+        cursor: pointer;
+      }
+
+      .btn-google img {
+        width: 20px;
+      }
+    </style>
+
+    <script>
+      // 1. Mostrar/Ocultar Senha
+      const togglePassword = document.querySelector("#togglePassword");
+      const password = document.querySelector("#password");
+
+      togglePassword.addEventListener("click", function (e) {
+        const type =
+          password.getAttribute("type") === "password" ? "text" : "password";
+        password.setAttribute("type", type);
+        this.classList.toggle("fa-eye");
+        this.classList.toggle("fa-eye-slash");
+      });
+
+      // 2. Api do Google
+      const GOOGLE_CLIENT_ID = "SEU_ID_AQUI.apps.googleusercontent.com";
+
+      function iniciarGoogle() {
+        google.accounts.id.initialize({
+          client_id: GOOGLE_CLIENT_ID,
+          callback: handleCredentialResponse,
+          auto_select: false,
+        });
+
+        google.accounts.id.renderButton(document.getElementById("buttonDiv"), {
+          theme: "outline",
+          size: "large",
+          width: "320",
+          shape: "pill",
+          text: "continue_with",
+        });
+      }
+
+      window.addEventListener("load", () => {
+        if (typeof google !== "undefined") {
+          iniciarGoogle();
+        }
+      });
+
+      // ==========================================
+      // 3. LÓGICA DE LOGIN COM BANCO DE DADOS
+      // ==========================================
+      document
+        .getElementById("formLogin")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault(); // Impede a página de recarregar
+
+          const emailDigitado = document.getElementById("email").value;
+          const senhaDigitada = document.getElementById("password").value;
+          const mensagemErro = document.getElementById("erroLogin");
+
+          const dadosLogin = {
+            email: emailDigitado,
+            senha: senhaDigitada,
+          };
+
+          try {
+            // Enviando para a rota /login do nosso servidor
+            const resposta = await fetch("https://testenpm.vercel.app/login", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(dadosLogin),
+            });
+
+            const resultado = await resposta.json();
+
+            if (resposta.ok) {
+              // === ADICIONE ESTAS DUAS LINHAS AQUI ===
+              localStorage.setItem("usuarioId", resultado.usuario.id);
+              localStorage.setItem("usuarioNome", resultado.usuario.nome);
+              // ========================================
+
+              mensagemErro.style.display = "none";
+              alert("Login realizado com sucesso! Bem-vindo!");
+
+              window.location.href = "home.html";
+            } else {
+              // Mostra a mensagem de erro (e-mail ou senha inválidos)
+              mensagemErro.style.display = "block";
+              mensagemErro.textContent = resultado.erro;
+            }
+          } catch (erro) {
+            console.error("Erro na requisição:", erro);
+            alert(
+              "Erro ao conectar com o servidor. Verifique se ele está rodando!",
+            );
+          }
+        });
+    </script>
+  </body>
+</html>

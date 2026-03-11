@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ServiçosJá - Cadastro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="auth-container">
+        <header class="header-cadastro">
+            <div class="logo-circle">
+                <a href="telaLogin.html">
+                <img src="./fotos/logo_servico.png" alt="S">
+                </a>
+            </div>
+        </header>
+
+        <form class="auth-form" id="formCadastro">
+    <div class="input-group">
+        <input type="text" id="nome" placeholder="Nome:" required>
+    </div>
+    <div class="input-group">
+        <select name="selecionarGenero" id="selecionarGenero">
+            <option value="naoDeclarar" selected>Gênero</option>
+            <option value="masculino">Masculino</option>
+            <option value="feminino">Feminino</option>
+            <option value="naoDeclarar">Prefiro não Declarar</option>
+        </select>
+    </div>
+    <div class="input-group">
+        <input type="date" id="dataNascimento" required style="color: #757575;">
+    </div>
+    <div class="input-group">
+        <input type="email" id="email" placeholder="E-mail:" required>
+    </div>
+    <div class="input-group">
+        <input type="password" id="senha" placeholder="Criar Senha:" required>
+    </div>
+    <div class="input-group">
+        <input type="password" id="confirmarSenha" placeholder="Confirmar Senha:" required>
+    </div>
+    
+    <p id="erroSenha" style="color: #cc0000; font-size: 0.8rem; display: none; text-align: center; font-weight: bold;">
+        As senhas não coincidem!
+    </p>
+
+    <button type="submit" class="btn-submit">Criar</button>
+</form>
+
+    <style>
+    * /* Estilização de todos os documentos HTML */ {
+        margin: 0px; /* Define a margem externa de todos os elementos*/
+        padding: 0px; /* Define a margem interna de todos os elementos*/
+        box-sizing: border-box; /*Define o modelo de caixa para todos os elementos*/
+        font-family: "Montserrat", sans-serif; /*Define a fonte do texto*/
+    }
+
+body {
+    /* Gradiente conforme as imagens enviadas */
+    background: linear-gradient(180deg, #FF8A00 0%, #F5F5F5 50%, #FF8A00 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+/* Estilo do Topo Laranja da tela de cadastro */
+.header-cadastro {
+    background-color: #FF8A00;
+    width: 100vw;
+    height: 120px;
+    margin-left: calc(-50vw + 50%); /* Garante que preencha toda a largura */
+    display: flex;
+    align-items: center;
+    padding-left: 40px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+    margin-bottom: 50px;
+}
+
+.logo-circle {
+    background: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #000;
+}
+
+/* Formulário */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 16px 20px;
+    border-radius: 20px;
+    border: 1.5px solid #FF5C00;
+    background-color: rgba(255, 255, 255, 0.9);
+    outline: none;
+    font-size: 1rem;
+    color: #000;
+
+}
+
+input::placeholder {
+    color: #000000; /* Um cinza bem escuro, quase preto */
+}
+
+/* Para garantir que o texto continue preto mesmo quando o campo está focado */
+input:focus {
+    color: #000000;
+}
+
+.input-group select {
+    width: 100%;
+    padding: 16px 20px;
+    border-radius: 20px;
+    border: 1.5px solid #FF5C00;
+    background-color: rgba(255, 255, 255, 0.9);
+    outline: none;
+    text-align: left;
+    font-size: 1rem;
+}
+
+/* Botão Criar (Branco com texto laranja) */
+.btn-submit {
+    margin-top: 30px;
+    align-self: center;
+    background-color: #FFFFFF;
+    color: #FF5C00;
+    border: 1.5px solid #FF5C00;
+    padding: 12px 60px;
+    border-radius: 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: #FFF5F0;
+}
+    </style>
+
+    <script>
+           document.getElementById('formCadastro').addEventListener('submit', async function(event) {
+    event.preventDefault(); // Impede a página de recarregar
+
+    // 1. Captura os valores digitados
+    const nome = document.getElementById('nome').value;
+    const genero = document.getElementById('selecionarGenero').value;
+    const dataNascimento = document.getElementById('dataNascimento').value;
+    const email = document.getElementById('email').value;
+    const senha = document.getElementById('senha').value;
+    const confirmarSenha = document.getElementById('confirmarSenha').value;
+    const mensagemErro = document.getElementById('erroSenha');
+
+    // 2. Valida as senhas
+    if (senha !== confirmarSenha) {
+        mensagemErro.style.display = 'block';
+        document.getElementById('senha').style.borderColor = 'red';
+        document.getElementById('confirmarSenha').style.borderColor = 'red';
+        return; // Interrompe a função aqui se estiver errado
+    } 
+    
+    // Se chegou aqui, as senhas estão corretas
+    mensagemErro.style.display = 'none';
+
+    // 3. Converte o texto do Gênero para um Número (pois o banco de dados pede INTEGER)
+    let generoId = 3; // Padrão: Não declarar
+    if (genero === 'masculino') generoId = 1;
+    if (genero === 'feminino') generoId = 2;
+
+    // 4. Monta o pacote de dados para enviar
+    const dadosUsuario = {
+        nome: nome,
+        genero: generoId,
+        dataNascimento: dataNascimento,
+        email: email,
+        senha: senha
+    };
+
+    // 5. Envia para o nosso servidor Node.js
+    try {
+        const resposta = await fetch('https://testenpm.vercel.app/cadastro', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dadosUsuario)
+        });
+
+        const resultado = await resposta.json();
+
+        if (resposta.ok) {
+            alert("Conta criada com sucesso! Redirecionando para o login...");
+            window.location.href = "telaLogin.html"; 
+        } else {
+            alert("Erro ao cadastrar: " + resultado.erro);
+        }
+    } catch (erro) {
+        console.error("Erro na requisição:", erro);
+        alert("Erro ao conectar com o servidor. Verifique se ele está rodando!");
+    }
+});
+
+// Limpa o erro de senha ao digitar
+document.getElementById('confirmarSenha').addEventListener('input', function() {
+    const senha = document.getElementById('senha').value;
+    if (this.value === senha) {
+        document.getElementById('erroSenha').style.display = 'none';
+        this.style.borderColor = '#FF5C00';
+        document.getElementById('senha').style.borderColor = '#FF5C00';
+    }
+});
+    </script>
+</body>
+</html>
