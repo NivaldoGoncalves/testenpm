@@ -444,24 +444,11 @@ app.post("/avaliar", async (req, res) => {
   }
 });
 
-// Onde antes era apenas app.listen(3000, () => {...})
 if (process.env.NODE_ENV !== "production") {
   app.listen(3000, () => {
     console.log("Servidor rodando localmente na porta 3000");
   });
 }
 
-// 1. Libera o acesso a todos os arquivos dentro da pasta projeto_pi
-// A Vercel entende melhor o __dirname neste contexto simples
-const publicPath = path.join(__dirname, "projeto_pi");
-
-// 1. Libera a pasta toda
-app.use(express.static(publicPath));
-
-// 2. Força a rota raiz para o login
-app.get("/", (req, res) => {
-  res.sendFile(path.join(publicPath, "telaLogin.html"));
-});
-
-// A sua única e última linha DEVE ser essa:
+// Apenas exporta o app (A Vercel cuidará do HTML agora!)
 module.exports = app;

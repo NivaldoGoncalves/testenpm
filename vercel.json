@@ -7,9 +7,11 @@
     }
   ],
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/server.js"
-    }
+    { "source": "/(.*\\.html)", "destination": "/projeto_pi/$1" },
+    { "source": "/(.*\\.css)", "destination": "/projeto_pi/$1" },
+    { "source": "/(.*\\.js)", "destination": "/projeto_pi/$1" },
+    { "source": "/(.*\\.png)", "destination": "/projeto_pi/$1" },
+    { "source": "/", "destination": "/projeto_pi/telaLogin.html" },
+    { "source": "/(.*)", "destination": "/server.js" }
   ]
 }
