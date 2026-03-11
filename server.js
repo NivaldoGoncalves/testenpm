@@ -452,11 +452,15 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // 1. Libera o acesso a todos os arquivos dentro da pasta projeto_pi
-app.use(express.static(path.join(process.cwd(), "projeto_pi")));
+// A Vercel entende melhor o __dirname neste contexto simples
+const publicPath = path.join(__dirname, "projeto_pi");
 
-// 2. Quando o usuário entrar no link limpo, joga ele pra tela de Login!
+// 1. Libera a pasta toda
+app.use(express.static(publicPath));
+
+// 2. Força a rota raiz para o login
 app.get("/", (req, res) => {
-  res.sendFile(path.join(process.cwd(), "projeto_pi", "telaLogin.html"));
+  res.sendFile(path.join(publicPath, "telaLogin.html"));
 });
 
 // A sua única e última linha DEVE ser essa:
