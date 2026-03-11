@@ -31,9 +31,6 @@ const pool = new Pool({
   },
 });
 
-// Rota de teste para ver se o servidor tá vivo
-app.get("/");
-
 // ==========================================
 // ROTA DE CADASTRO DE USUÁRIOS
 // ==========================================
