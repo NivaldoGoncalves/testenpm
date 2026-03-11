@@ -10,6 +10,18 @@ app.use(cors()); // Permite que o seu front-end acesse o back-end
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
+const path = require("path"); // Adicione isso lá no topo, junto com os outros requires
+
+// ... suas outras configurações ...
+
+// 1. Ensina o servidor a entregar os arquivos da pasta "projeto_pi" (CSS, imagens, HTMLs)
+app.use(express.static(path.join(__dirname, "projeto_pi")));
+
+// 2. Cria uma rota principal: se alguém acessar o link limpo da Vercel, joga para o Login!
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "projeto_pi", "telaLogin.html"));
+});
+
 // Configuração do Banco de Dados
 const pool = new Pool({
   connectionString:
