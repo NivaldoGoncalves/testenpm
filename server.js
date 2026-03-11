@@ -443,12 +443,24 @@ app.post("/avaliar", async (req, res) => {
     res.status(500).json({ erro: "Erro ao salvar avaliação." });
   }
 });
+// ==========================================
+// CONFIGURAÇÃO DO FRONT-END
+// ==========================================
 
+// 1. Libera o acesso a todos os arquivos da sua pasta projeto_pi (HTML, CSS, imagens)
+app.use(express.static(path.join(__dirname, "projeto_pi")));
+
+// 2. Quando o usuário entrar no link limpo da Vercel, entrega a tela de Login
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "projeto_pi", "telaLogin.html"));
+});
+
+// Apenas para rodar localmente no Codespaces
 if (process.env.NODE_ENV !== "production") {
   app.listen(3000, () => {
     console.log("Servidor rodando localmente na porta 3000");
   });
 }
 
-// Apenas exporta o app (A Vercel cuidará do HTML agora!)
+// Exporta o aplicativo para a Vercel
 module.exports = app;
