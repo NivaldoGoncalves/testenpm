@@ -460,7 +460,18 @@ app.post("/avaliar", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor do PI rodando perfeitamente na porta ${PORT}!`);
 });
+// ==========================================
+// CONFIGURAÇÃO DO FRONT-END PARA A VERCEL
+// ==========================================
+const path = require("path");
 
-// Exporta o aplicativo para a Vercel
+// 1. Libera o acesso a todos os arquivos dentro da pasta projeto_pi (CSS, Imagens, outros HTMLs)
+app.use(express.static(path.join(process.cwd(), "projeto_pi")));
 
+// 2. Quando o usuário entrar no link limpo (testenpm.vercel.app), joga ele pra tela de Login!
+app.get("/", (req, res) => {
+  res.sendFile(path.join(process.cwd(), "projeto_pi", "telaLogin.html"));
+});
+
+// A sua última linha DEVE continuar sendo essa aqui:
 module.exports = app;
