@@ -1,26 +1,17 @@
 const express = require("express");
 const cors = require("cors");
 const { Pool } = require("pg");
+const path = require("path"); // Só precisa desse aqui no topo!
 
 const app = express();
 
 // Configurações básicas
-app.use(cors()); // Permite que o seu front-end acesse o back-end
-// Aumentando o limite do servidor para aceitar imagens de até 50 megabytes
+app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
-const path = require("path"); // Adicione isso lá no topo, junto com os outros requires
-
-// ... suas outras configurações ...
-
-// 1. Ensina o servidor a entregar os arquivos da pasta "projeto_pi" (CSS, imagens, HTMLs)
-app.use(express.static(path.join(__dirname, "projeto_pi")));
-
-// 2. Cria uma rota principal: se alguém acessar o link limpo da Vercel, joga para o Login!
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "projeto_pi", "telaLogin.html"));
-});
+// Configuração do Banco de Dados
+// ... (seu código do banco de dados continua daqui pra baixo) ...
 
 // Configuração do Banco de Dados
 const pool = new Pool({
@@ -452,21 +443,21 @@ app.post("/avaliar", async (req, res) => {
     res.status(500).json({ erro: "Erro ao salvar avaliação." });
   }
 });
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor do PI rodando perfeitamente na porta ${PORT}!`);
-});
-// ==========================================
-// CONFIGURAÇÃO DO FRONT-END PARA A VERCEL
-// ==========================================
-const path = require("path");
 
-// 1. Libera o acesso a todos os arquivos dentro da pasta projeto_pi (CSS, Imagens, outros HTMLs)
+// Onde antes era apenas app.listen(3000, () => {...})
+if (process.env.NODE_ENV !== "production") {
+  app.listen(3000, () => {
+    console.log("Servidor rodando localmente na porta 3000");
+  });
+}
+
+// 1. Libera o acesso a todos os arquivos dentro da pasta projeto_pi
 app.use(express.static(path.join(process.cwd(), "projeto_pi")));
 
-// 2. Quando o usuário entrar no link limpo (testenpm.vercel.app), joga ele pra tela de Login!
+// 2. Quando o usuário entrar no link limpo, joga ele pra tela de Login!
 app.get("/", (req, res) => {
   res.sendFile(path.join(process.cwd(), "projeto_pi", "telaLogin.html"));
 });
 
-// A sua última linha DEVE continuar sendo essa aqui:
+// A sua única e última linha DEVE ser essa:
 module.exports = app;
