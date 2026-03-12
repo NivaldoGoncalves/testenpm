@@ -214,6 +214,8 @@
 
           buscarMensagens();
           setInterval(buscarMensagens, 3000);
+          verificarStatusServico(); // Verifica a primeira vez na hora que abre
+          setInterval(verificarStatusServico, 3000); // Fica verificando a cada 3 segundos
         } catch (e) {
           console.error("Erro ao inicializar chat:", e);
         }
@@ -327,6 +329,32 @@
           }
         } catch (e) {
           alert("Erro ao concluir.");
+        }
+      }
+      // ==========================================
+      // NOVA FUNÇÃO: VERIFICAR SE O SERVIÇO ACABOU
+      // ==========================================
+      async function verificarStatusServico() {
+        if (!idSolicitacao) return;
+
+        try {
+          const r = await fetch(
+            `https://testenpm.vercel.app/perfil-pedido/${idSolicitacao}`,
+          );
+          const pedido = await r.json();
+
+          // Se o status no banco de dados mudou para 'Concluído' ou 'Avaliado'
+          if (
+            pedido.status_pedido === "Concluído" ||
+            pedido.status_pedido === "Avaliado"
+          ) {
+            alert("Este serviço foi finalizado! O chat será encerrado.");
+
+            // Redireciona para a Home (ou para a tela de Avaliação, se você preferir)
+            window.location.href = "home.html";
+          }
+        } catch (e) {
+          console.error("Erro ao verificar status do serviço:", e);
         }
       }
 
