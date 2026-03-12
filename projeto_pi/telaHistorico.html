@@ -206,21 +206,32 @@
     <script>
       const idUsuario = localStorage.getItem("usuarioId");
 
-      // 1. Verifica se o usuário é um profissional para mostrar a segunda aba
+      // 1. Verifica se o usuário é um profissional
       async function verificarPerfil() {
+        if (!idUsuario) {
+          window.location.href = "telaLogin.html";
+          return;
+        }
+
         try {
           const r = await fetch(
             `https://testenpm.vercel.app/perfil/${idUsuario}`,
           );
+
+          if (!r.ok) {
+            // Se deu erro 404, significa que não tem perfil de profissional.
+            // Então ele é só um cliente. Não precisamos fazer nada, a aba fica oculta.
+            return;
+          }
+
           const dados = await r.json();
-          if (
-            dados.profissoes_usuario &&
-            dados.profissoes_usuario !== "Profissional"
-          ) {
+
+          // Se encontrou dados e ele tem uma profissão cadastrada, mostra a aba
+          if (dados && dados.profissoes_usuario) {
             document.getElementById("tabRealizados").style.display = "block";
           }
         } catch (e) {
-          console.error(e);
+          console.error("Erro ao verificar perfil do usuário:", e);
         }
       }
 
@@ -230,52 +241,82 @@
         lista.innerHTML = '<p class="loading-msg">Buscando registros...</p>';
 
         try {
-          // Usamos a rota que já criamos no server.js
-          const url =
-            tipo === "contratados"
-              ? `https://testenpm.vercel.app/pedidos-cliente/${idUsuario}`
-              : `https://testenpm.vercel.app/pedidos/${idUsuario}`; // Para profissionais
+          // Define a URL dependendo da aba que o usuário clicou
+          let url = `https://testenpm.vercel.app/pedidos-cliente/${idUsuario}`;
+
+          if (tipo === "realizados") {
+            url = `https://testenpm.vercel.app/pedidos/${idUsuario}`;
+          }
 
           const resposta = await fetch(url);
           const dados = await resposta.json();
 
-          if (dados.length === 0) {
+          if (!dados || dados.length === 0 || dados.erro) {
             lista.innerHTML =
-              '<p class="loading-msg">Nenhum registro encontrado.</p>';
+              '<p class="loading-msg">Nenhum registro encontrado para esta categoria.</p>';
             return;
           }
 
           lista.innerHTML = "";
+
           dados.forEach((item) => {
-            const dataFormatada = new Date(
-              item.data_servico,
-            ).toLocaleDateString("pt-BR");
+            // Formata a data (se vier vazia, coloca 'Data não informada')
+            const dataFormatada = item.data_servico
+              ? new Date(item.data_servico).toLocaleDateString("pt-BR")
+              : "Data não informada";
+
+            // Verifica o status para colorir o cartão
             const isAceito = item.status_pedido === "Aceito";
+            const isConcluido =
+              item.status_pedido === "Concluído" ||
+              item.status_pedido === "Avaliado";
+
+            let classeCartao = "";
+            let classeStatus = "tag-pendente"; // Amarelo por padrão
+
+            if (isAceito) {
+              classeCartao = "aceito"; // Verde lateral
+              classeStatus = "tag-aceito"; // Verde tag
+            } else if (isConcluido) {
+              classeStatus = "tag-aceito"; // Verde tag
+            }
+
+            // Descobre o nome do envolvido para exibir no cartão
+            let nomeEnvolvido = "";
+            if (tipo === "contratados") {
+              nomeEnvolvido =
+                "Profissional: " +
+                (item.nome_profissional || "Aguardando aceite");
+            } else {
+              nomeEnvolvido =
+                "Cliente: " + (item.nome_cliente || "Não informado");
+            }
 
             const card = document.createElement("div");
-            card.className = `historico-card ${isAceito ? "aceito" : ""}`;
+            card.className = `historico-card ${classeCartao}`;
 
             card.innerHTML = `
-                        <div class="card-top">
-                            <strong>${item.tipo_servico}</strong>
-                            <span>${dataFormatada}</span>
-                        </div>
-                        <div class="card-info">
-                            <p>📍 ${item.endereco_servico}</p>
-                            <p>👤 ${tipo === "contratados" ? "Profissional: " + (item.nome_profissional || "Pendente") : "Cliente: " + item.nome_cliente}</p>
-                        </div>
-                        <div class="card-footer">
-                            <span class="status-tag ${isAceito ? "tag-aceito" : "tag-pendente"}">
-                                ${item.status_pedido}
-                            </span>
-                            <small style="color: #bbb">ID: #${item.id_solicitacao}</small>
-                        </div>
-                    `;
+                <div class="card-top">
+                    <strong>${item.tipo_servico || "Serviço"}</strong>
+                    <span>${dataFormatada}</span>
+                </div>
+                <div class="card-info">
+                    <p>📍 ${item.endereco_servico || "Endereço não informado"}</p>
+                    <p>👤 ${nomeEnvolvido}</p>
+                </div>
+                <div class="card-footer">
+                    <span class="status-tag ${classeStatus}">
+                        ${item.status_pedido || "Pendente"}
+                    </span>
+                    <small style="color: #bbb">ID: #${item.id_solicitacao}</small>
+                </div>
+            `;
             lista.appendChild(card);
           });
         } catch (erro) {
+          console.error("Erro no catch do histórico:", erro);
           lista.innerHTML =
-            '<p class="loading-msg">Erro ao carregar dados.</p>';
+            '<p class="loading-msg">Erro ao carregar os dados. Tente novamente mais tarde.</p>';
         }
       }
 
@@ -287,9 +328,13 @@
         carregarHistorico(tipo);
       }
 
-      document.addEventListener("DOMContentLoaded", () => {
-        verificarPerfil();
-        carregarHistorico();
+      // Função de arranque (Roda quando a tela abre)
+      document.addEventListener("DOMContentLoaded", async () => {
+        // Primeiro verificamos quem é (esperamos terminar com o await)
+        await verificarPerfil();
+
+        // Só depois carregamos a lista (por padrão, a aba 'contratados')
+        carregarHistorico("contratados");
       });
     </script>
   </body>
