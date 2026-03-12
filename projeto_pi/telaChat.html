@@ -26,8 +26,6 @@
         display: flex;
         flex-direction: column;
       }
-
-      /* Header */
       header {
         background: linear-gradient(135deg, var(--laranja), #ff5c00);
         padding: 40px 20px 15px;
@@ -51,8 +49,6 @@
         font-size: 0.7rem;
         opacity: 0.9;
       }
-
-      /* Janela de Chat */
       #chatWindow {
         flex-grow: 1;
         padding: 20px;
@@ -61,7 +57,6 @@
         flex-direction: column;
         gap: 10px;
       }
-
       .balao {
         max-width: 80%;
         padding: 12px 16px;
@@ -69,6 +64,7 @@
         font-size: 0.9rem;
         line-height: 1.4;
         position: relative;
+        animation: subir 0.3s ease-out;
       }
       .minha {
         align-self: flex-end;
@@ -90,8 +86,6 @@
         opacity: 0.7;
         text-align: right;
       }
-
-      /* Footer */
       footer {
         padding: 15px;
         background: white;
@@ -99,7 +93,7 @@
         gap: 10px;
         align-items: center;
       }
-      input {
+      input[type="text"] {
         flex-grow: 1;
         padding: 12px 20px;
         border-radius: 25px;
@@ -116,22 +110,18 @@
         cursor: pointer;
         font-weight: bold;
       }
-      /* Adicione isso ao final do seu <style> */
       .check-lido {
-        color: #4fc3f7; /* Azul claro estilo lido */
+        color: #4fc3f7;
         font-size: 0.8rem;
         margin-left: 5px;
         font-weight: bold;
       }
-
       .minha .tempo {
         display: flex;
         align-items: center;
         justify-content: flex-end;
         color: rgba(255, 255, 255, 0.8);
       }
-
-      /* Animação para a mensagem subir suavemente */
       @keyframes subir {
         from {
           opacity: 0;
@@ -142,18 +132,13 @@
           transform: translateY(0);
         }
       }
-
-      .balao {
-        animation: subir 0.3s ease-out;
-      }
     </style>
   </head>
   <body>
     <header>
-      <button
-        class="btn-voltar"
-        onclick="window.location.href = 'home.html'"
-      ></button>
+      <button class="btn-voltar" onclick="window.location.href = 'home.html'">
+        ‹
+      </button>
       <button
         id="btnConcluir"
         onclick="concluirServico()"
@@ -179,6 +164,20 @@
     <main id="chatWindow"></main>
 
     <footer>
+      <label
+        for="inputFotoChat"
+        style="cursor: pointer; font-size: 1.5rem; margin-right: 5px"
+        title="Anexar Foto"
+        >📎</label
+      >
+      <input
+        type="file"
+        id="inputFotoChat"
+        accept="image/*"
+        style="display: none"
+        onchange="prepararFotoChat(event)"
+      />
+
       <input type="text" id="inputMsg" placeholder="Digite uma mensagem..." />
       <button id="btnEnviar" onclick="enviarMensagem()">➔</button>
     </footer>
@@ -188,12 +187,12 @@
       const idSolicitacao = urlParams.get("id");
       const meuId = localStorage.getItem("usuarioId");
       let idDestinatario = null;
+      let fotoBase64Chat = null; // Variável da foto
 
-      // 1. Configuração do Som
       const somNotificacao = new Audio(
         "https://assets.mixkit.co/active_storage/sfx/2354/2354-preview.mp3",
       );
-      let totalMensagensAntigo = 0; // Variável para controlar o bip
+      let totalMensagensAntigo = 0;
 
       async function inicializarChat() {
         try {
@@ -214,8 +213,9 @@
 
           buscarMensagens();
           setInterval(buscarMensagens, 3000);
-          verificarStatusServico(); // Verifica a primeira vez na hora que abre
-          setInterval(verificarStatusServico, 3000); // Fica verificando a cada 3 segundos
+
+          verificarStatusServico();
+          setInterval(verificarStatusServico, 3000);
         } catch (e) {
           console.error("Erro ao inicializar chat:", e);
         }
@@ -230,12 +230,9 @@
           const msgs = await r.json();
           const windowChat = document.getElementById("chatWindow");
 
-          // 2. Lógica do BIP
-          // Se o número de mensagens no banco for maior do que o que tínhamos antes
           if (msgs.length > totalMensagensAntigo) {
             const ultimaMsg = msgs[msgs.length - 1];
 
-            // Se a última mensagem NÃO foi enviada por mim E não é o carregamento inicial (0)
             if (ultimaMsg.id_envia != meuId && totalMensagensAntigo !== 0) {
               somNotificacao
                 .play()
@@ -244,14 +241,9 @@
                 );
             }
 
-            // Atualiza o contador para a próxima verificação
             totalMensagensAntigo = msgs.length;
-
-            // 3. Atualização da Interface (só roda se houver mensagem nova)
             windowChat.innerHTML = "";
-            // Localize este trecho dentro da função buscarMensagens() e substitua:
 
-            // ... (dentro da função buscarMensagens)
             msgs.forEach((m) => {
               const souEu = m.id_envia == meuId;
               const div = document.createElement("div");
@@ -261,24 +253,47 @@
                 ? '<span class="check-lido">✓✓</span>'
                 : "";
 
+              // Se tiver imagem, monta a tag da foto
+              const imgHTML = m.imagem
+                ? `<br><img src="${m.imagem}" style="max-width: 100%; border-radius: 10px; margin-top: 8px;">`
+                : "";
+
+              // Evita escrever "Foto anexada..." na tela se for só uma imagem
+              const textoFinal =
+                m.texto_mensagem !== "📷 Foto anexada..."
+                  ? m.texto_mensagem
+                  : "";
+
               div.innerHTML = `
-          ${m.texto_mensagem} 
-          <span class="tempo">
-            ${new Date(m.data_envio).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-            ${checkHTML}
-          </span>
-        `;
+                ${textoFinal} 
+                ${imgHTML}
+                <span class="tempo">
+                  ${new Date(m.data_envio).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                  ${checkHTML}
+                </span>
+              `;
               windowChat.appendChild(div);
             });
 
-            // Scroll suave para a última mensagem (apenas uma vez)
             windowChat.scrollTo({
               top: windowChat.scrollHeight,
               behavior: "smooth",
             });
-          } // fecha o if(msgs.length !== ...)
+          }
         } catch (e) {
           console.error("Erro ao buscar mensagens:", e);
+        }
+      }
+
+      function prepararFotoChat(event) {
+        const arquivo = event.target.files[0];
+        if (arquivo) {
+          const leitor = new FileReader();
+          leitor.onload = function (e) {
+            fotoBase64Chat = e.target.result;
+            document.getElementById("inputMsg").value = "📷 Foto anexada...";
+          };
+          leitor.readAsDataURL(arquivo);
         }
       }
 
@@ -286,17 +301,20 @@
         const input = document.getElementById("inputMsg");
         const texto = input.value.trim();
 
-        if (!texto || !idDestinatario) {
-          console.error("Faltam dados: ", { texto, idDestinatario });
-          return;
-        }
+        if (!texto && !fotoBase64Chat) return;
+        if (!idDestinatario) return;
 
         const dados = {
           idSolicitacao: idSolicitacao,
           idEnvia: meuId,
           idRecebe: idDestinatario,
-          texto: texto,
+          texto: texto || "📷 Imagem", // Se mandar só foto, põe um texto padrão
+          imagem: fotoBase64Chat,
         };
+
+        // UI Feedback: desativa botão para não enviar duplo
+        input.value = "Enviando...";
+        document.getElementById("btnEnviar").disabled = true;
 
         try {
           const r = await fetch(`https://testenpm.vercel.app/mensagens`, {
@@ -307,21 +325,23 @@
 
           if (r.ok) {
             input.value = "";
-            buscarMensagens(); // Atualiza na hora
+            fotoBase64Chat = null; // Limpa a foto da memória
+            buscarMensagens();
           }
         } catch (e) {
           alert("Erro ao enviar.");
+          input.value = texto; // Devolve o texto se der erro
+        } finally {
+          document.getElementById("btnEnviar").disabled = false;
         }
       }
+
       async function concluirServico() {
         if (!confirm("Deseja marcar este serviço como concluído?")) return;
-
         try {
           const r = await fetch(
             `https://testenpm.vercel.app/pedidos/${idSolicitacao}/concluir`,
-            {
-              method: "PUT",
-            },
+            { method: "PUT" },
           );
           if (r.ok) {
             alert("Serviço concluído com sucesso!");
@@ -331,26 +351,20 @@
           alert("Erro ao concluir.");
         }
       }
-      // ==========================================
-      // NOVA FUNÇÃO: VERIFICAR SE O SERVIÇO ACABOU
-      // ==========================================
+
       async function verificarStatusServico() {
         if (!idSolicitacao) return;
-
         try {
           const r = await fetch(
             `https://testenpm.vercel.app/perfil-pedido/${idSolicitacao}`,
           );
           const pedido = await r.json();
 
-          // Se o status no banco de dados mudou para 'Concluído' ou 'Avaliado'
           if (
             pedido.status_pedido === "Concluído" ||
             pedido.status_pedido === "Avaliado"
           ) {
             alert("Este serviço foi finalizado! O chat será encerrado.");
-
-            // Redireciona para a Home (ou para a tela de Avaliação, se você preferir)
             window.location.href = "home.html";
           }
         } catch (e) {
@@ -358,7 +372,6 @@
         }
       }
 
-      // Inicializa ao carregar a página
       window.onload = inicializarChat;
     </script>
   </body>

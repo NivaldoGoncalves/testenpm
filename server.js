@@ -326,13 +326,16 @@ app.put("/pedidos/:idPedido/aceitar", async (req, res) => {
 // Enviar mensagem
 app.post("/mensagens", async (req, res) => {
   try {
-    const { idSolicitacao, idEnvia, idRecebe, texto } = req.body;
+    const { idSolicitacao, idEnvia, idRecebe, texto, imagem } = req.body;
+
+    // Agora inserimos a imagem como o 5º valor
     const novaMsg = await pool.query(
-      "INSERT INTO tb_mensagens (id_solicitacao, id_envia, id_recebe, texto_mensagem) VALUES ($1, $2, $3, $4) RETURNING *",
-      [idSolicitacao, idEnvia, idRecebe, texto],
+      "INSERT INTO tb_mensagens (id_solicitacao, id_envia, id_recebe, texto_mensagem, imagem) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      [idSolicitacao, idEnvia, idRecebe, texto, imagem || null],
     );
     res.status(201).json(novaMsg.rows[0]);
   } catch (err) {
+    console.error("Erro no chat:", err);
     res.status(500).json({ error: "Erro ao enviar mensagem" });
   }
 });
