@@ -245,7 +245,7 @@
           let url = `https://testenpm.vercel.app/pedidos-cliente/${idUsuario}`;
 
           if (tipo === "realizados") {
-            url = `https://testenpm.vercel.app/pedidos/${idUsuario}`;
+            url = `https://testenpm.vercel.app/pedidos/${idUsuario}`; // << ESTE É O CARA ERRADO
           }
 
           const resposta = await fetch(url);

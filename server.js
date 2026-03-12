@@ -403,6 +403,27 @@ app.put("/pedidos/:id/concluir", async (req, res) => {
 });
 
 // ==========================================
+// ROTA PARA O HISTÓRICO DO PROFISSIONAL
+// ==========================================
+app.get("/historico-profissional/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const query = `
+        SELECT s.*, c.nome_usuario as nome_cliente 
+        FROM tb_solicitacao s
+        JOIN tb_cad_usuario c ON s.id_usuario = c.id_usuario
+        WHERE s.id_profissional = $1 
+        ORDER BY s.id_solicitacao DESC
+    `;
+    const resultado = await pool.query(query, [id]);
+    res.status(200).json(resultado.rows);
+  } catch (err) {
+    console.error("Erro ao buscar histórico do profissional:", err);
+    res.status(500).json({ error: "Erro ao buscar histórico" });
+  }
+});
+
+// ==========================================
 // LIGAR O SERVIDOR
 // ==========================================
 const PORT = process.env.PORT || 3000;
